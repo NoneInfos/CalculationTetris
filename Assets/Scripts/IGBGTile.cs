@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using IGMain;
 
-public class TestScripts : MonoBehaviour
+
+public class IGBGTile : IGTile
 {
-    
+   
 }
