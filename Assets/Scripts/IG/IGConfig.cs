@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class IGConfig
 {
+
+    private static readonly int MAP_COL = 9;
+    private static readonly int MAP_ROW = 9;
+
     /// <summary>
     /// 5x5 (중점 계산이 편해서?)크기의 블록으로 구성
     /// </summary>

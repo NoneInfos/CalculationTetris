@@ -2,21 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using IGMain;
-public class IGEngine : MonoBehaviour, IIGEngineController
+public class IGEngine : MonoBehaviour
 {
-  
-    private void Init()
+
+    private List<IGController> _controllers = new List<IGController>();
+
+
+    private void Awake()
     {
-        
     }
 
-    private void InitControllers()
-    {
-        InitController();
-    }
-      public void InitController()
-    {
 
+    public void InitializeController(IGController inParentController)
+    {
+        throw new System.NotImplementedException();
     }
 
+    public void ClearController()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void FinalizeController()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void AdvanceTime(float inDeltaTime)
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IGMain
+public class IGScene : Scene
 {
-    public interface IIGEngineController
+    private void Start()
     {
-        void InitController();
+        
     }
 }

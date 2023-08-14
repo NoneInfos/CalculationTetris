@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using IGMain;
 
-public class IGInputController : MonoBehaviour, IIGEngineController
+public class IGInputController : MonoBehaviour
 {
-    public void InitController()
-    {
+   
 
+    public void InitializeController(IGController inParentController)
+    {
+        throw new System.NotImplementedException();
     }
 
     void Update()
