@@ -4,32 +4,55 @@ using UnityEngine;
 using IGMain;
 public class IGEngine : MonoBehaviour
 {
+    public IGTileController _tileController { private set; get; }
 
-    private List<IGController> _controllers = new List<IGController>();
+    public IGBlcokController _blockController { private set; get; }
 
+    public IGInputController _inputController { private set; get; }
+
+    public IGBoardController _boardController { private set; get; }
+
+    [SerializeField] Transform TF_Cameras;
 
     private void Awake()
     {
+        PoolManager.Instacne.InitializeManager();
+
+        //카메라 위치 세팅
+        TF_Cameras.transform.position = new Vector2(IGConfig.SCREEN_WIDTH_HALF - ((IGConfig.TILE_WIDTH_HALF / 2) * 3), 200f);
     }
 
-
-    public void InitializeController(IGController inParentController)
+    private void Start()
     {
-        throw new System.NotImplementedException();
+
+        _tileController = CreateObj<IGTileController>(this.transform, true, "InGame");
+        _tileController.SetEngine(this);
+        _tileController.InitializeController();
+
+        _blockController = CreateObj<IGBlcokController>(this.transform, true, "InGame");
+        _blockController.SetEngine(this);
+        _blockController.InitializeController();
+
+        _boardController = CreateObj<IGBoardController>(this.transform, true, "InGame");
+        _boardController.SetEngine(this);
+        _boardController.InitializeController();
     }
 
-    public void ClearController()
+
+    private void Update()
     {
-        throw new System.NotImplementedException();
+        _tileController.UpdateController();
+        _boardController.UpdateController();
+        _blockController.UpdateController();
     }
 
-    public void FinalizeController()
+
+    public T CreateObj<T>(Transform inParent, bool isActive = false, string inLayerName = "Default") where T : Component
     {
-        throw new System.NotImplementedException();
+        GameObject go = new GameObject(typeof(T).Name);
+        go.layer = LayerMask.NameToLayer(inLayerName);
+        go.transform.SetParent(inParent);
+        return go.AddComponent<T>();
     }
 
-    public void AdvanceTime(float inDeltaTime)
-    {
-        throw new System.NotImplementedException();
-    }
 }

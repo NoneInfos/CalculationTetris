@@ -3,50 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using IGMain;
 
-public class PoolManager : SingletonClass<PoolManager>
+public class PoolManager : SingletonClass<PoolManager>, ManagerBase
 {
     public readonly int POOL_COUNT = 81;
 
     private const string PREFAB_ROOT_PATH = "Prefabs/";
 
-
-    private Dictionary<ETileType, Queue<IGTile>> _poolList = new Dictionary<ETileType, Queue<IGTile>>();
+    private Dictionary<ETileType, Queue<GameObject>> _poolList = new Dictionary<ETileType, Queue<GameObject>>();
 
     private Dictionary<ETileType, string> _objectPath = new Dictionary<ETileType, string>() 
     {
-        { ETileType.BG, "IGTile" },
-        {ETileType.Block, "IGBlock" }
+        { ETileType.BG, "IGTile_BG" },
+        { ETileType.Block, "IGTile_Block" },
+        { ETileType.BlockNode, "IGTile_BlockNode" }
     };
 
-    public bool IsActivated => throw new System.NotImplementedException();
-
-    public void Push(ETileType type, IGTile obj)
+    public void Push(ETileType type, GameObject obj)
     {
+        obj.gameObject.SetActive(false);
         _poolList[type].Enqueue(obj);
     }
 
-    public IGTile Pop(ETileType type)
+    public GameObject Pop(ETileType type)
     {
         if(_poolList[type].Count <= 0)
         {
-            Create(type, _objectPath[type]);
+            Create(type);
             Debug.Log($"PoolManager Create {type} Total Pooling Count : {_poolList[type].Count}");
         }
-        return _poolList[type].Dequeue();
+        var obj =  _poolList[type].Dequeue();
+        obj.SetActive(true);
+        return obj;
     }
 
-    private void Create(ETileType type, string objectPath)
+    private void Create(ETileType type)
     {
-        var prefab = Resources.Load(PREFAB_ROOT_PATH + $"{objectPath}");
+        var resource = Resources.Load<GameObject>(PREFAB_ROOT_PATH + $"{_objectPath[type]}");
 
-        if(_poolList.ContainsKey(type) == false)
+        if (resource == null)
+            return;
+
+
+        if (_poolList.ContainsKey(type) == false)
         {
-            _poolList.Add(type, new Queue<IGTile>());
+            _poolList.Add(type, new Queue<GameObject>());
         }
 
         for (int count = 0; count < POOL_COUNT; ++count)
         {
-            _poolList[type].Enqueue(Instantiate(prefab) as IGTile);
+            var prefab = Instantiate(resource,this.transform);
+            prefab.SetActive(false);
+            _poolList[type].Enqueue(prefab);
         }
 
     }
@@ -62,33 +69,19 @@ public class PoolManager : SingletonClass<PoolManager>
         }
     }
 
-    public void InitController()
+    public void InitializeManager()
     {
-        foreach (var poolObject in _objectPath)
-        {
-            Create(poolObject.Key, poolObject.Value);
-        }
+        Create(ETileType.BG);
 
+        Create(ETileType.Block);
     }
 
-    public void InitializeController(IGController inParentController)
+    public void ClearManager()
     {
-        throw new System.NotImplementedException();
     }
 
-    public void ClearController()
+    public void FinalizeManager()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void FinalizeController()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void AdvanceTime(float inDeltaTime)
-    {
-        throw new System.NotImplementedException();
     }
 }
 
@@ -96,4 +89,5 @@ public enum ETileType
 {
     BG,
     Block,
+    BlockNode,
 }
