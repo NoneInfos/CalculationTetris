@@ -18,7 +18,7 @@ public class IGEngine : MonoBehaviour
     {
         PoolManager.Instacne.InitializeManager();
 
-        //카메라 위치 세팅
+        //?????? ???? ????
         TF_Cameras.transform.position = new Vector2(IGConfig.SCREEN_WIDTH_HALF - ((IGConfig.TILE_WIDTH_HALF / 2) * 3), 200f);
     }
 
@@ -42,8 +42,8 @@ public class IGEngine : MonoBehaviour
     private void Update()
     {
         _tileController.UpdateController();
-        _boardController.UpdateController();
         _blockController.UpdateController();
+        _boardController.UpdateController();
     }
 
 

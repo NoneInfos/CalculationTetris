@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class IGBlcokController : IGController
 {
-    private IGEngine _engine;
+    public IGTile_Block SelectedBlock = null;
 
-    private  List<IGTile_Block> _blockList = new List<IGTile_Block>();
+    public bool IsBlockMoving = false;
+
+    //private  List<IGTile_Block> _blockList = new List<IGTile_Block>();
 
     private List<Vector2> spawnPostion = new List<Vector2>() 
     {
@@ -30,7 +32,7 @@ public class IGBlcokController : IGController
 
     public override void UpdateController()
     {
-        
+
     }
 
     private void SpawnBlock()
@@ -40,6 +42,9 @@ public class IGBlcokController : IGController
             var block = PoolManager.Instacne.Pop(ETileType.Block);
             block.gameObject.transform.localPosition = spawnPostion[i];
             block.gameObject.transform.parent = this.transform;
+
+            block.GetComponent<IGTile_Block>().BlockController = this;
         }
     }
+
 }

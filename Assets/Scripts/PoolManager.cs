@@ -13,9 +13,8 @@ public class PoolManager : SingletonClass<PoolManager>, ManagerBase
 
     private Dictionary<ETileType, string> _objectPath = new Dictionary<ETileType, string>() 
     {
-        { ETileType.BG, "IGTile_BG" },
-        { ETileType.Block, "IGTile_Block" },
-        { ETileType.BlockNode, "IGTile_BlockNode" }
+        { ETileType.BG, "IGTile" },
+        { ETileType.Block, "IGTile_Block" }
     };
 
     public void Push(ETileType type, GameObject obj)

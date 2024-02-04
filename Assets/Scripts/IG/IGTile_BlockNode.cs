@@ -6,7 +6,6 @@ using TMPro;
 using UnityEngine.EventSystems;
 public class IGTile_BlockNode : IGTile
 {
-    [SerializeField] private TextMeshProUGUI TXT_Index;
 
     [SerializeField] private LayerMask layerMask;
     private float radius = 36f;
