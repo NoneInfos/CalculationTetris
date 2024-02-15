@@ -47,4 +47,29 @@ public class IGBlcokController : IGController
         }
     }
 
+
+    public void PlaceBlockOnBoard(IGTile_Block block)
+    {
+        _engine._boardController.PlaceBlockOnBoard(block);
+    }
+
+    public bool CheckNearestTiles()
+    {
+        if (SelectedBlock == null)
+            return false;
+
+        if (SelectedBlock.BlockNodes == null)
+            return false;
+
+        foreach(var node in SelectedBlock.BlockNodes)
+        {
+            if(node.NearestTile?.State == IGMain.EState.UnStable)
+            {
+                return false;
+            }    
+        }
+
+
+        return true;
+    }
 }

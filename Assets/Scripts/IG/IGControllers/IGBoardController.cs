@@ -7,7 +7,7 @@ using IGMain;
 public class IGBoardController : IGController
 {
 
-    List<IGTile> _tileList;
+    private List<IGTile> _tileList;
 
     public override void ClearController()
     {
@@ -41,6 +41,28 @@ public class IGBoardController : IGController
             }
         }
 
-        Debug.LogError(colideStr);
+        //Debug.LogError(colideStr);
+    }
+
+    public void PlaceBlockOnBoard(IGTile_Block block)
+    {
+        if (_engine._blockController.SelectedBlock != null)
+        {
+            if (_engine._blockController.SelectedBlock != block)
+            {
+                _engine._blockController.SelectedBlock.Initialize();
+                block.Initialize();
+                return;
+            }
+
+            if (_engine._blockController.CheckNearestTiles() == false)
+            {
+                block.Initialize();
+                return;
+            }
+
+            block.PlaceBlockOnBoard();
+
+        }
     }
 }

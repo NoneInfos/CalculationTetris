@@ -5,14 +5,28 @@ using UnityEngine;
 
 namespace IGMain
 {
-  
+
+    public enum EState
+    {
+        None,       //?? ????
+        Stable,     //???? ???? ????
+        UnStable,   //???? ?????? ??
+    }
 
     public class IGObject : MonoBehaviour
     {
         /// <summary>
-        /// ¾²·Á³ª...?
+        /// ??????...?
         /// </summary>
         public int Index { get; set; } = 0;
+
+        public EState State { get; set; } = EState.None;
+
+        public virtual void Initialize()
+        {
+            Index = 0;
+            State = EState.None;
+        }
 
         public void SetPos(Vector2 pos)
         {

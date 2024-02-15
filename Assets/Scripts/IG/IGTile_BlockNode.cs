@@ -14,6 +14,9 @@ public class IGTile_BlockNode : IGTile
 
     private Collider2D nearestCollider;
 
+    public GameObject NearestObject { get { return nearestCollider?.gameObject; } }
+
+    public IGTile NearestTile { get { return nearestCollider?.gameObject.GetComponent<IGTile>();  } }
 
     private void OnDrawGizmos()
     {
@@ -61,7 +64,10 @@ public class IGTile_BlockNode : IGTile
                     closestDistance = distance;
                 }
             }
-            nearestCollider?.GetComponent<IGTile>()?.SetCollide(true);
+
+            if(NearestTile != null) NearestTile.IsColide = true;
         }
     }
+
+    
 }

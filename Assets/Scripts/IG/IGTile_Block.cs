@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using IGMain;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {    
-    [SerializeField] List<IGTile> _blockTiles;
+    [SerializeField] private List<IGTile_BlockNode> _blockNodes;
+
+    public List<IGTile_BlockNode> BlockNodes { get { return _blockNodes; } }
 
     public IGBlcokController BlockController { get; set; } = null;
 
     public bool IsNodeAllColide
     { get
         {
-            if(_blockTiles == null || _blockTiles.Count < 1)
+            if(_blockNodes == null || _blockNodes.Count < 1)
             {
                 return false;
             }
 
-            foreach(var node in _blockTiles)
+            foreach(var node in _blockNodes)
                 if(!node.IsColide)
                     return false;
 
@@ -30,7 +33,12 @@ public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, ID
 
     private Vector2 initialPosition = Vector2.zero;
 
-    
+    public override void Initialize()
+    {
+        base.Initialize();
+        this.transform.position = initialPosition;
+    }
+
     private void Start()
     {
         for(int x = 0; x < 3; ++x)
@@ -39,10 +47,10 @@ public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, ID
             {
                 var index = x * 3 + y;
                 if (blockType[x,y] == 1)
-                    _blockTiles[index].gameObject.SetActive(true);
+                    _blockNodes[index].gameObject.SetActive(true);
                 else
                 {
-                    _blockTiles[index].gameObject.SetActive(false);
+                    _blockNodes[index].gameObject.SetActive(false);
                 }
             }
         }
@@ -55,45 +63,59 @@ public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, ID
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (State == EState.UnStable)
+            return;
+
         BlockController.IsBlockMoving = true;
         BlockController.SelectedBlock = this;
-        this.transform.localScale = new Vector3(1f,1f,1f);
-        foreach (var node in _blockTiles)
+        this.transform.localScale = Vector3.one;
+        foreach (var node in _blockNodes)
         {
-            ((IGTile_BlockNode)node).transform.localScale = new Vector3(.8f, .8f, .8f);
+            node.transform.localScale = new Vector3(.8f, .8f, .8f);
         }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        BlockController.IsBlockMoving = false;
-        BlockController.SelectedBlock = null;
-        this.transform.localScale = new Vector3(.7f, .7f, .7f);
-        this.transform.position = initialPosition;
-        foreach (var node in _blockTiles)
-        {
-            ((IGTile_BlockNode)node).transform.localScale = new Vector3(1f,1f,1f);
-        }
+        if (State == EState.UnStable)
+            return;
 
+        BlockController.PlaceBlockOnBoard(this);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (State == EState.UnStable)
+            return;
+
         this.transform.position = Camera.main.ScreenToWorldPoint(eventData.position);
-
-        //Debug.DrawLine(Camera.main.ScreenToWorldPoint(eventData.position) - new Vector3(44f, 0f),
-        //  Camera.main.ScreenToWorldPoint(eventData.position) + new Vector3(44f, 0f),
-        //  Color.blue, 1f);
-
     }
 
-    public void PlaceOnBoard()
+    public void PlaceBlockOnBoard()
     {
+        foreach(var tile in _blockNodes)
+        {
+            if(tile is IGTile_BlockNode node)
+            {
+                if (node.NearestTile == null)
+                    continue;
 
-    }
+                DOTween.To(() => node.transform.position, pos => node.transform.position = pos, node.NearestObject.transform.position, 0.1f);
+                this.transform.localScale = Vector3.one;
+                node.transform.localScale = Vector3.one;
+                if (node.NearestTile != null)
+                {
+                    node.NearestTile.IsPlaceBlock = true;
+                    node.State = EState.UnStable;
+                }
 
-    private void OnBoardAnimation()
-    {
+            }
+        }
+        this.State = EState.UnStable;
+
+        BlockController.IsBlockMoving = false;
+        BlockController.SelectedBlock = null;
         
     }
+    
 }

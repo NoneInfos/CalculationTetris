@@ -15,12 +15,7 @@ namespace IGMain
 
      */
 
-    enum TileState
-    {
-        None,       //?? ????
-        Stable,     //???? ???? ????
-        UnStable,   //???? ?????? ??
-    }
+    
 
 
     /// <summary>
@@ -36,9 +31,9 @@ namespace IGMain
 
         private float radius = 36f;
 
-        private bool _isCollide = false;
+        public bool IsColide { get; set; } = false;
 
-        public bool IsColide { get { return _isCollide; } }
+        public bool IsPlaceBlock { get; set; } = false;
 
         public void SetUI()
         {
@@ -47,7 +42,7 @@ namespace IGMain
 
         private void Update()
         {
-            if (_isCollide)
+            if (IsColide)
             {
             }
             else
@@ -55,19 +50,17 @@ namespace IGMain
 
             }
 
-            _spriteRenderer.color = _isCollide ? Color.red : Color.black;
+            _spriteRenderer.color = IsColide ? Color.red : Color.black;
 
 
-
-            _isCollide = false;
+            IsColide = false;
         }
 
 
 
         public void SetCollide(bool isCollide)
         {
-            _isCollide = isCollide;
-            //_spriteRenderer.color = isCollide ? Color.red : Color.black;
+            IsColide = isCollide;
         }
 
     }
