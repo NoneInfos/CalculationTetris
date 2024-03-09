@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class IGBlcokController : IGController
 {
@@ -47,6 +48,25 @@ public class IGBlcokController : IGController
         }
     }
 
+    public void HandleBlockOnPointerDown(IGTile_Block block)
+    {
+        SelectedBlock = block;
+        IsBlockMoving = true;
+    }
+
+    public void HandleBlockOnPointerUp()
+    {
+        PlaceBlockOnBoard(SelectedBlock);
+
+        SelectedBlock = null;
+        IsBlockMoving = false;
+    }
+
+    public void HandleBlockeOnDrag()
+    {
+        //_engine._boardController
+    }
+
 
     public void PlaceBlockOnBoard(IGTile_Block block)
     {
@@ -55,21 +75,16 @@ public class IGBlcokController : IGController
 
     public bool CheckNearestTiles()
     {
-        if (SelectedBlock == null)
-            return false;
+        Debug.LogError(SelectedBlock != null);
+        Debug.LogError(SelectedBlock.BlockNodes != null);
+        Debug.LogError(SelectedBlock.BlockNodes.Any(node => node.NearestTile != null &&
+            node.NearestTile.State == IGMain.EState.UnStable));
 
-        if (SelectedBlock.BlockNodes == null)
-            return false;
+        //블록의 인접타일을 체크하는거보다는 보드의 정보로 판단해야할거같은데
 
-        foreach(var node in SelectedBlock.BlockNodes)
-        {
-            if(node.NearestTile?.State == IGMain.EState.UnStable)
-            {
-                return false;
-            }    
-        }
-
-
-        return true;
+        return SelectedBlock != null &&
+            SelectedBlock.BlockNodes != null &&
+            SelectedBlock.BlockNodes.Any(node => node.NearestTile != null &&
+            node.NearestTile.State == IGMain.EState.UnStable) == false;
     }
 }

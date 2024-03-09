@@ -58,7 +58,6 @@ public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, ID
 
         initialPosition = this.transform.position;
     }
-
     
 
     public void OnPointerDown(PointerEventData eventData)
@@ -66,13 +65,14 @@ public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, ID
         if (State == EState.UnStable)
             return;
 
-        BlockController.IsBlockMoving = true;
-        BlockController.SelectedBlock = this;
         this.transform.localScale = Vector3.one;
+
         foreach (var node in _blockNodes)
         {
             node.transform.localScale = new Vector3(.8f, .8f, .8f);
         }
+
+        BlockController.HandleBlockOnPointerDown(this);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -80,7 +80,7 @@ public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, ID
         if (State == EState.UnStable)
             return;
 
-        BlockController.PlaceBlockOnBoard(this);
+        BlockController.HandleBlockOnPointerUp();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -89,6 +89,8 @@ public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, ID
             return;
 
         this.transform.position = Camera.main.ScreenToWorldPoint(eventData.position);
+
+        BlockController.HandleBlockeOnDrag();
     }
 
     public void PlaceBlockOnBoard()
@@ -108,14 +110,8 @@ public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, ID
                     node.NearestTile.IsPlaceBlock = true;
                     node.State = EState.UnStable;
                 }
-
             }
         }
         this.State = EState.UnStable;
-
-        BlockController.IsBlockMoving = false;
-        BlockController.SelectedBlock = null;
-        
     }
-    
 }

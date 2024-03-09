@@ -62,7 +62,12 @@ public class IGBoardController : IGController
             }
 
             block.PlaceBlockOnBoard();
-
         }
+    }
+
+    public bool CheckPlaceBlockOnBoard(IGTile_Block block)
+    {
+
+        return false;
     }
 }
