@@ -6,8 +6,9 @@ using IGMain;
 
 public class IGBoardController : IGController
 {
+    private Dictionary<Vector2Int, IGTile> _board;
 
-    private List<IGTile> _tileList;
+    //private List<IGTile> _tileList;
 
     public override void ClearController()
     {
@@ -19,7 +20,25 @@ public class IGBoardController : IGController
 
     public override void InitializeController()
     {
-        _tileList = _engine._tileController.TileList;
+        for (int y = 0; y < IGConfig.BOARD_ROW; ++y)
+        {
+            for (int x = 0; x < IGConfig.BOARD_COL; ++x)
+            {
+                var _tile_BG = PoolManager.Instacne.Pop(ETileType.BG);
+                _tile_BG.transform.parent = this.gameObject.transform;
+                _tile_BG.name = $"BG {x} {y}";
+                IGTile tile = _tile_BG.GetComponent<IGTile>();
+
+                tile.SetIndex(int.Parse($"{x}{y}"));
+                tile.SetPos(new Vector2(x * IGConfig.TILE_WIDTH, y * IGConfig.TILE_HEIGHT));
+                tile.SetUI();
+
+                if (_board == null)
+                    _board = new Dictionary<Vector2Int, IGTile>();
+
+                _board[new Vector2Int(x, y)] = tile;
+            }
+        }
     }
 
     public override void UpdateController()
@@ -32,16 +51,12 @@ public class IGBoardController : IGController
             }
         }
 
-        var colideStr = "";
-        for(int i =0; i < _tileList.Count; ++i)
-        {
-            if (_tileList[i].IsColide)
-            {
-                colideStr += $"{_tileList[i].Index.ToString()} , ";
-            }
-        }
-
-        //Debug.LogError(colideStr);
+        //var colideStr = "";
+        //foreach(var tile in _board.Values)
+        //{
+        //    if(tile.IsColide)
+        //        colideStr += $"{tile.Index.ToString()} , " ;
+        //}
     }
 
     public void PlaceBlockOnBoard(IGTile_Block block)
@@ -61,7 +76,6 @@ public class IGBoardController : IGController
                 return;
             }
 
-            block.PlaceBlockOnBoard();
         }
     }
 

@@ -23,7 +23,7 @@ namespace IGMain
     /// </summary>
     public class IGTile : IGObject
     {
-        [SerializeField] TextMeshProUGUI TXT_Index;
+        [SerializeField] TextMeshPro TXT_Index;
 
         [SerializeField] SpriteRenderer _spriteRenderer;
 
@@ -37,7 +37,12 @@ namespace IGMain
 
         public void SetUI()
         {
+#if UNITY_EDITOR
+            TXT_Index.enabled = true;
             TXT_Index.text = Index.ToString();
+#else
+            TXT_Index.enabled = false;
+#endif
         }
 
         private void Update()

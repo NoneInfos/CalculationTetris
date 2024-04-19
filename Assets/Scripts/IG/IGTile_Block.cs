@@ -93,7 +93,7 @@ public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, ID
         BlockController.HandleBlockeOnDrag();
     }
 
-    public void PlaceBlockOnBoard()
+    public void AnimatePlaceBlockOnBoard()
     {
         foreach(var tile in _blockNodes)
         {

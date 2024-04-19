@@ -73,6 +73,14 @@ public class IGBlcokController : IGController
         _engine._boardController.PlaceBlockOnBoard(block);
     }
 
+    public void AnimatePlaceBlockOnBoard()
+    {
+        if (SelectedBlock == null)
+            return;
+
+        SelectedBlock.AnimatePlaceBlockOnBoard();
+    }
+
     public bool CheckNearestTiles()
     {
         Debug.LogError(SelectedBlock != null);

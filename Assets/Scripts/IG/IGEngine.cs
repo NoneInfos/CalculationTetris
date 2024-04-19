@@ -4,8 +4,6 @@ using UnityEngine;
 using IGMain;
 public class IGEngine : MonoBehaviour
 {
-    public IGTileController _tileController { private set; get; }
-
     public IGBlcokController _blockController { private set; get; }
 
     public IGInputController _inputController { private set; get; }
@@ -24,11 +22,6 @@ public class IGEngine : MonoBehaviour
 
     private void Start()
     {
-
-        _tileController = CreateObj<IGTileController>(this.transform, true, "InGame");
-        _tileController.SetEngine(this);
-        _tileController.InitializeController();
-
         _blockController = CreateObj<IGBlcokController>(this.transform, true, "InGame");
         _blockController.SetEngine(this);
         _blockController.InitializeController();
@@ -41,7 +34,6 @@ public class IGEngine : MonoBehaviour
 
     private void Update()
     {
-        _tileController.UpdateController();
         _blockController.UpdateController();
         _boardController.UpdateController();
     }
