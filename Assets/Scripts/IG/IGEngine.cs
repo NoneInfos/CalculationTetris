@@ -16,7 +16,6 @@ public class IGEngine : MonoBehaviour
     {
         PoolManager.Instacne.InitializeManager();
 
-        //?????? ???? ????
         TF_Cameras.transform.position = new Vector2(IGConfig.SCREEN_WIDTH_HALF - ((IGConfig.TILE_WIDTH_HALF / 2) * 3), 200f);
     }
 

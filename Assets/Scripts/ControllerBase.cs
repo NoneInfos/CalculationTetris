@@ -16,12 +16,12 @@ public interface ControllerBase
     void InitializeController();
 
     /// <summary>
-    /// 초기값으로 설정
+    /// 
     /// </summary>
     void ClearController();
 
     /// <summary>
-    /// 제거(메모리 반환 처리)
+    /// 
     /// </summary>
     void FinalizeController();
 

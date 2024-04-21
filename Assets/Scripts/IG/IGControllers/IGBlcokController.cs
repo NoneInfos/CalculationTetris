@@ -83,10 +83,10 @@ public class IGBlcokController : IGController
 
     public bool CheckNearestTiles()
     {
-        Debug.LogError(SelectedBlock != null);
-        Debug.LogError(SelectedBlock.BlockNodes != null);
-        Debug.LogError(SelectedBlock.BlockNodes.Any(node => node.NearestTile != null &&
-            node.NearestTile.State == IGMain.EState.UnStable));
+        //Debug.LogError(SelectedBlock != null);
+        //Debug.LogError(SelectedBlock.BlockNodes != null);
+        //Debug.LogError(SelectedBlock.BlockNodes.Any(node => node.NearestTile != null &&
+        //    node.NearestTile.State == IGMain.EState.UnStable));
 
         //블록의 인접타일을 체크하는거보다는 보드의 정보로 판단해야할거같은데
 
