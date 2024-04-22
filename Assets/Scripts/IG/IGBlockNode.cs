@@ -4,10 +4,8 @@ using UnityEngine;
 using IGMain;
 using TMPro;
 using UnityEngine.EventSystems;
-public class IGTile_BlockNode : IGTile
+public class IGBlockNode : IGTile
 {
-
-    [SerializeField] private LayerMask layerMask;
     private float radius = 36f;
 
     private Collider2D[] colliderList;
@@ -27,9 +25,13 @@ public class IGTile_BlockNode : IGTile
         if(nearestCollider != null)
         {
             Gizmos.DrawWireSphere(nearestCollider.transform.position, 20f);
-
         }
 
+    }
+
+    public bool IsColideWithBoardNode()
+    {
+        return nearestCollider != null;
     }
 
     //private void Update()

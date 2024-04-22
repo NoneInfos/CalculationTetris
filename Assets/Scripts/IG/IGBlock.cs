@@ -5,7 +5,7 @@ using IGMain;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class IGBlock : IGObject, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {    
     [SerializeField] private List<IGTile_BlockNode> _blockNodes;
 
@@ -13,21 +13,7 @@ public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, ID
 
     public IGBlcokController BlockController { get; set; } = null;
 
-    public bool IsNodeAllColide
-    { get
-        {
-            if(_blockNodes == null || _blockNodes.Count < 1)
-            {
-                return false;
-            }
-
-            foreach(var node in _blockNodes)
-                if(!node.IsColide)
-                    return false;
-
-            return true;
-        }
-    }
+  
 
     private int[,] blockType = IGConfig.IBlock;
 
@@ -113,5 +99,19 @@ public class IGTile_Block : IGObject, IPointerDownHandler, IPointerUpHandler, ID
             }
         }
         this.State = EState.UnStable;
+    }
+
+    public bool IsAllBlockNodeColideWithBoardNode()
+    {   
+        if(_blockNodes == null || _blockNodes.Count < 1)
+            {
+                return false;
+            }
+
+            foreach(var node in _blockNodes)
+                if(!node.IsColide)
+                    return false;
+
+            return true;
     }
 }

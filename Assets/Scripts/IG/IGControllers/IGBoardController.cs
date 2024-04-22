@@ -79,6 +79,11 @@ public class IGBoardController : IGController
         }
     }
 
+    public void HighlightNearestTile()
+    {
+        
+    }
+
     public bool CheckPlaceBlockOnBoard(IGTile_Block block)
     {
 
