@@ -4,11 +4,7 @@ using UnityEngine;
 using IGMain;
 public class IGTileController : IGController
 {
-    //private const string T_INNER_ODD = "t_inner_odd";
-    //private const string T_INNER_EVEN = "t_inner_even";
-
     private List<IGTile> _tileList = new List<IGTile>();
-
     public List<IGTile> TileList { get { return _tileList; }  }
 
     public override void ClearController()

@@ -8,8 +8,6 @@ public class IGBoardController : IGController
 {
     private Dictionary<Vector2Int, IGTile> _board;
 
-    //private List<IGTile> _tileList;
-
     public override void ClearController()
     {
     }
@@ -50,16 +48,9 @@ public class IGBoardController : IGController
 
             }
         }
-
-        //var colideStr = "";
-        //foreach(var tile in _board.Values)
-        //{
-        //    if(tile.IsColide)
-        //        colideStr += $"{tile.Index.ToString()} , " ;
-        //}
     }
 
-    public void PlaceBlockOnBoard(IGTile_Block block)
+    public void PlaceBlockOnBoard(IGBlock block)
     {
         if (_engine._blockController.SelectedBlock != null)
         {
@@ -79,7 +70,7 @@ public class IGBoardController : IGController
         }
     }
 
-    public bool CheckPlaceBlockOnBoard(IGTile_Block block)
+    public bool CheckPlaceBlockOnBoard(IGBlock block)
     {
 
         return false;

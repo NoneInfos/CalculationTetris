@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using IGMain;
 
 public class IGBlcokController : IGController
 {
-    public IGTile_Block SelectedBlock = null;
+    public IGBlock SelectedBlock = null;
 
     public bool IsBlockMoving = false;
 
@@ -44,11 +45,11 @@ public class IGBlcokController : IGController
             block.gameObject.transform.localPosition = spawnPostion[i];
             block.gameObject.transform.parent = this.transform;
 
-            block.GetComponent<IGTile_Block>().BlockController = this;
+            block.GetComponent<IGBlock>().BlockController = this;
         }
     }
 
-    public void HandleBlockOnPointerDown(IGTile_Block block)
+    public void HandleBlockOnPointerDown(IGBlock block)
     {
         SelectedBlock = block;
         IsBlockMoving = true;
@@ -68,7 +69,7 @@ public class IGBlcokController : IGController
     }
 
 
-    public void PlaceBlockOnBoard(IGTile_Block block)
+    public void PlaceBlockOnBoard(IGBlock block)
     {
         _engine._boardController.PlaceBlockOnBoard(block);
     }
@@ -83,11 +84,6 @@ public class IGBlcokController : IGController
 
     public bool CheckNearestTiles()
     {
-        //Debug.LogError(SelectedBlock != null);
-        //Debug.LogError(SelectedBlock.BlockNodes != null);
-        //Debug.LogError(SelectedBlock.BlockNodes.Any(node => node.NearestTile != null &&
-        //    node.NearestTile.State == IGMain.EState.UnStable));
-
         //블록의 인접타일을 체크하는거보다는 보드의 정보로 판단해야할거같은데
 
         return SelectedBlock != null &&

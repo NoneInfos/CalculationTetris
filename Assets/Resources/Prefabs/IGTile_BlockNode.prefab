@@ -306,14 +306,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4954019796705864270}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81718a582cda8c84aacd9ed0050450c4, type: 3}
+  m_Script: {fileID: 11500000, guid: 320405c80d161614ba068d4f2cabf297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TXT_Index: {fileID: 1322882713178270812}
   _spriteRenderer: {fileID: 2564208790329044591}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!61 &8955240224419353779
 BoxCollider2D:
   m_ObjectHideFlags: 0
