@@ -21,7 +21,8 @@ public class IGBlock : IGObject, IPointerDownHandler, IPointerUpHandler, IDragHa
         base.Initialize();
         this.transform.position = initialPosition;
 
-        var prefab = Resource.Load<IGBlockTile>();
+        var path ="Prefabs/IGBlockTile";
+        var prefab = Resources.Load<IGBlockTile>(path);
         for(int i = 0; i< 9; ++i)
         {
             var obj = Instanciate(prefab,this.transform);
