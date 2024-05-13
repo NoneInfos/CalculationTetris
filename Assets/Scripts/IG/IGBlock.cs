@@ -7,12 +7,9 @@ using DG.Tweening;
 
 public class IGBlock : IGObject, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {    
-    [SerializeField] private List<IGTile_BlockNode> _blockNodes;
-
-    public List<IGTile_BlockNode> BlockNodes { get { return _blockNodes; } }
+    public List<IGBlockTile> BlockNodes { get; private set; }
 
     public IGBlcokController BlockController { get; set; } = null;
-
   
 
     private int[,] blockType = IGConfig.IBlock;
@@ -23,6 +20,14 @@ public class IGBlock : IGObject, IPointerDownHandler, IPointerUpHandler, IDragHa
     {
         base.Initialize();
         this.transform.position = initialPosition;
+
+        var prefab = Resource.Load<IGBlockTile>();
+        for(int i = 0; i< 9; ++i)
+        {
+            var obj = Instanciate(prefab,this.transform);
+            obj.SetActive(false);
+            BlockNodes.Add(obj);
+        }
     }
 
     private void Start()
@@ -33,10 +38,10 @@ public class IGBlock : IGObject, IPointerDownHandler, IPointerUpHandler, IDragHa
             {
                 var index = x * 3 + y;
                 if (blockType[x,y] == 1)
-                    _blockNodes[index].gameObject.SetActive(true);
+                    BlockNodes[index].gameObject.SetActive(true);
                 else
                 {
-                    _blockNodes[index].gameObject.SetActive(false);
+                    BlockNodes[index].gameObject.SetActive(false);
                 }
             }
         }
@@ -53,7 +58,7 @@ public class IGBlock : IGObject, IPointerDownHandler, IPointerUpHandler, IDragHa
 
         this.transform.localScale = Vector3.one;
 
-        foreach (var node in _blockNodes)
+        foreach (var node in BlockNodes)
         {
             node.transform.localScale = new Vector3(.8f, .8f, .8f);
         }
@@ -81,7 +86,7 @@ public class IGBlock : IGObject, IPointerDownHandler, IPointerUpHandler, IDragHa
 
     public void AnimatePlaceBlockOnBoard()
     {
-        foreach(var tile in _blockNodes)
+        foreach(var tile in BlockNodes)
         {
             if(tile is IGTile_BlockNode node)
             {
@@ -103,12 +108,12 @@ public class IGBlock : IGObject, IPointerDownHandler, IPointerUpHandler, IDragHa
 
     public bool IsAllBlockNodeColideWithBoardNode()
     {   
-        if(_blockNodes == null || _blockNodes.Count < 1)
+        if(BlockNodes == null || BlockNodes.Count < 1)
             {
                 return false;
             }
 
-            foreach(var node in _blockNodes)
+            foreach(var node in BlockNodes)
                 if(!node.IsColide)
                     return false;
 
