@@ -8,16 +8,13 @@ namespace IGMain
 
     public enum EState
     {
-        None,       //?? ????
-        Stable,     //???? ???? ????
-        UnStable,   //???? ?????? ??
+        None,       
+        Stable,    
+        UnStable,  
     }
 
     public class IGObject : MonoBehaviour
     {
-        /// <summary>
-        /// ??????...?
-        /// </summary>
         public int Index { get; set; } = 0;
 
         public EState State { get; set; } = EState.None;

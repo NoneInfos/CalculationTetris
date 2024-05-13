@@ -20,7 +20,7 @@ public class IGConfig
     public static readonly int TILE_HEIGHT_HALF = TILE_HEIGHT / 2;
 
     /// <summary>
-    /// 3x3 Å©±âÀÇ ºí·ÏÀ¸·Î ±¸¼º
+    /// 3x3 Å©ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public static readonly int[,] IBlock =
     {

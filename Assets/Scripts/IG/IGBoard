@@ -4,12 +4,46 @@ using UnityEngine;
 using IGMain;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using System.Linq;
 
 public class IGBoard : IGObject
 {    
-    [SerializeField] private List<IGBoardNode> _boardNodes;
+    public List<IGBoardTile> BoardNodes { get ; private set;}
 
-    public List<IGBoardNode> BoardNodes { get { return _boardNodes; } }
+    public Dictionary<int, List<IGBoardTile>> Rows;
 
-    
+    public Dictionary<int, List<IGBoardTile>> Cols;
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        this.transform.position = initialPosition;
+
+       var path ="Prefabs/IGBlockTile";
+        var prefab = Resources.Load<IGBoardTile>(path);
+        for(int col = 0; col < IGConfig.BOARD_COL; ++col)
+        {
+            for(int row = 0; row < IGConfig.BOARD_ROW; ++row)
+            {
+                var obj = Instanciate(prefab,this.transform);
+                obj.SetActive(false);
+
+                BlockNodes.Add(obj);    
+                Rows[row].Add(obj);
+                col == row ? Cols[col].Add(obj);
+            }
+        }
+    }
+
+   
+   
+    public bool IsFilledRow(int row)
+    {
+        return Row[row].All(tile => tile.IsFilled);
+    }
+
+    Publish bool IsFilledColumn(int col)
+    {
+        return Col[col].All(tile => tile.IsFilled);
+    }
 }
