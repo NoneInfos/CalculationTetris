@@ -25,8 +25,8 @@ public class IGBlock : IGObject, IPointerDownHandler, IPointerUpHandler, IDragHa
         var prefab = Resources.Load<IGBlockTile>(path);
         for(int i = 0; i< 9; ++i)
         {
-            var obj = Instanciate(prefab,this.transform);
-            obj.SetActive(false);
+            var obj = Instantiate(prefab,this.transform);
+            obj.gameObject.SetActive(false);
             BlockNodes.Add(obj);
         }
     }
@@ -89,7 +89,7 @@ public class IGBlock : IGObject, IPointerDownHandler, IPointerUpHandler, IDragHa
     {
         foreach(var tile in BlockNodes)
         {
-            if(tile is IGTile_BlockNode node)
+            if(tile is IGBlockTile node)
             {
                 if (node.NearestTile == null)
                     continue;

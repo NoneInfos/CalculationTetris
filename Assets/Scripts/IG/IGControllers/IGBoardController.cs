@@ -59,7 +59,7 @@ public class IGBoardController : IGController
         //}
     }
 
-    public void PlaceBlockOnBoard(IGTile_Block block)
+    public void PlaceBlockOnBoard(IGBlock block)
     {
         if (_engine._blockController.SelectedBlock != null)
         {
@@ -84,7 +84,7 @@ public class IGBoardController : IGController
         
     }
 
-    public bool CheckPlaceBlockOnBoard(IGTile_Block block)
+    public bool CheckPlaceBlockOnBoard(IGBlockTile block)
     {
 
         return false;

@@ -33,8 +33,8 @@ public class IGEngine : MonoBehaviour
 
     private void Update()
     {
-        _blockController.UpdateController();
-        _boardController.UpdateController();
+        _blockController?.UpdateController();
+        _boardController?.UpdateController();
     }
 
 
