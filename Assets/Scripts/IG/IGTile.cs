@@ -7,9 +7,6 @@ using TMPro;
 
 namespace IGMain
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class IGTile : IGObject
     {
         [SerializeField] TextMeshPro TXT_Index;
@@ -65,6 +62,14 @@ namespace IGMain
         public void HighlightTileAsColide()
         {
 
+        }
+
+        public void ResetTile()
+        {
+            IsPlaceBlock = false;
+            // 타일의 시각적 상태를 초기화
+            _spriteRenderer.color = Color.white; // 또는 기본 색상으로 설정
+                                                 // 필요한 경우 다른 속성들도 초기화
         }
 
     }

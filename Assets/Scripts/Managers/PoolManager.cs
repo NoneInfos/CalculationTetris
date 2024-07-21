@@ -14,11 +14,13 @@ public class PoolManager : SingletonClass<PoolManager>, ManagerBase
     private Dictionary<ETileType, string> _objectPath = new Dictionary<ETileType, string>() 
     {
         { ETileType.BG, "IGTile" },
-        { ETileType.Block, "IGBlockTile" }
+        { ETileType.Block, "IGBlock" },
+        { ETileType.BlockNode, "IGBlockTile" }
     };
 
     public void Push(ETileType type, GameObject obj)
     {
+        obj.transform.parent = this.transform;
         obj.gameObject.SetActive(false);
         _poolList[type].Enqueue(obj);
     }
@@ -52,6 +54,7 @@ public class PoolManager : SingletonClass<PoolManager>, ManagerBase
         {
             var prefab = Instantiate(resource,this.transform);
             prefab.SetActive(false);
+            prefab?.GetComponent<IGObject>()?.Initialize();
             _poolList[type].Enqueue(prefab);
         }
 
@@ -63,7 +66,6 @@ public class PoolManager : SingletonClass<PoolManager>, ManagerBase
         {
             foreach(var item in poolItem.Value)
             {
-                //Destroy(item);
             }
         }
     }
@@ -71,7 +73,7 @@ public class PoolManager : SingletonClass<PoolManager>, ManagerBase
     public void InitializeManager()
     {
         Create(ETileType.BG);
-
+        Create(ETileType.BlockNode);
         Create(ETileType.Block);
     }
 

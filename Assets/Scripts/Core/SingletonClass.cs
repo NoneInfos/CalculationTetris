@@ -5,7 +5,7 @@ public class SingletonClass<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance;
 
-    public static T Instacne 
+    public static T Instance 
     {
         get 
         {
@@ -28,8 +28,27 @@ public class SingletonClass<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
+    protected virtual void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this as T;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
 
-
+    protected virtual void OnApplicationQuit()
+    {
+        if (_instance == this)
+        {
+            _instance = null;
+            Destroy(gameObject);
+        }
+    }
 
 
 }
