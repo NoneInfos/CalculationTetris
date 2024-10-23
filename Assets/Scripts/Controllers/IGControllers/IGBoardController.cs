@@ -11,6 +11,8 @@ public class IGBoardController : IGController
     [SerializeField] private SpriteRenderer gridLineRenderer;
 
     private IGTile[,] _board;
+
+    private IGBoard _IGBoard;
     private int totalClearedLines = 0;
     private int totalClearedSquares = 0;
     public override void InitializeController()
@@ -55,6 +57,29 @@ public class IGBoardController : IGController
                 _board[x, y].name = $"[{x}, {y}]";
             }
         }
+
+        //  board = new Tile[boardHeight, boardWidth];
+        // Vector2 boardCenter = new Vector2((boardWidth - 1) * tileSize * 0.5f, (boardHeight - 1) * tileSize * 0.5f);
+
+        // for (int y = 0; y < boardHeight; y++)
+        // {
+        //     for (int x = 0; x < boardWidth; x++)
+        //     {
+        //         Vector2 tilePosition = new Vector2(x * tileSize, -y * tileSize) - boardCenter;
+        //         GameObject tileObject = Instantiate(tilePrefab, tilePosition, Quaternion.identity, transform);
+                
+        //         Tile tile = tileObject.GetComponent<Tile>();
+        //         if (tile == null)
+        //         {
+        //             tile = tileObject.AddComponent<Tile>();
+        //         }
+                
+        //         tile.SetIndex(x, y);
+        //         tile.name = $"Tile_{x}_{y}";
+                
+        //         board[y, x] = tile;
+        //     }
+        // }
     }
 
     private Vector2Int WorldToBoardPosition(Vector3 worldPosition)
@@ -187,13 +212,13 @@ public class IGBoardController : IGController
         return totalClearedSquares;
     }
 
-    // ÀÌ ¸Þ¼­µå¸¦ ¶óÀÎÀÌ Á¦°ÅµÉ ¶§¸¶´Ù È£Ãâ
+    // ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Åµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
     private void IncrementClearedLines(int linesCleared)
     {
         totalClearedLines += linesCleared;
     }
 
-    // ÀÌ ¸Þ¼­µå¸¦ 3x3 »ç°¢ÇüÀÌ Á¦°ÅµÉ ¶§¸¶´Ù È£Ãâ
+    // ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å¸¦ 3x3 ï¿½ç°¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Åµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
     private void IncrementClearedSquares()
     {
         totalClearedSquares++;
