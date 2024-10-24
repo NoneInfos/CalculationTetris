@@ -40,46 +40,9 @@ public class IGBoardController : IGController
 
     private void CreateBoard()
     {
-        this.transform.position = Vector3.zero;
-        for (int y = 0; y < IGConfig.BOARD_ROW; ++y)
-        {
-            for (int x = 0; x < IGConfig.BOARD_COL; ++x)
-            {
-                var tile = PoolManager.Instance.Pop(ETileType.BG);
-                tile.transform.parent = this.transform;
-                tile.transform.localPosition = new Vector3((x * IGConfig.TILE_WIDTH), (y * IGConfig.TILE_HEIGHT), 0);
+        _IGBoard = new IGBoard();
 
-                IGTile igTile = tile.GetComponent<IGTile>();
-                igTile.SetIndex(y * IGConfig.BOARD_COL + x);
-                igTile.SetUI();
-
-                _board[x, y] = igTile;
-                _board[x, y].name = $"[{x}, {y}]";
-            }
-        }
-
-        //  board = new Tile[boardHeight, boardWidth];
-        // Vector2 boardCenter = new Vector2((boardWidth - 1) * tileSize * 0.5f, (boardHeight - 1) * tileSize * 0.5f);
-
-        // for (int y = 0; y < boardHeight; y++)
-        // {
-        //     for (int x = 0; x < boardWidth; x++)
-        //     {
-        //         Vector2 tilePosition = new Vector2(x * tileSize, -y * tileSize) - boardCenter;
-        //         GameObject tileObject = Instantiate(tilePrefab, tilePosition, Quaternion.identity, transform);
-                
-        //         Tile tile = tileObject.GetComponent<Tile>();
-        //         if (tile == null)
-        //         {
-        //             tile = tileObject.AddComponent<Tile>();
-        //         }
-                
-        //         tile.SetIndex(x, y);
-        //         tile.name = $"Tile_{x}_{y}";
-                
-        //         board[y, x] = tile;
-        //     }
-        // }
+        _IGBoard.Initialize();
     }
 
     private Vector2Int WorldToBoardPosition(Vector3 worldPosition)
