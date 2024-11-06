@@ -9,9 +9,9 @@ public class IGBlockController : IGController
 
     private List<Vector2> spawnPositions = new List<Vector2>() 
     {
-        new Vector2( 58f,-176f ),
-        new Vector2( 298f,-176f ),
-        new Vector2( 538f,-176f )
+        new Vector2( Screen.width * 0.33f * -1f, Screen.height * 0.33f * -1f ),
+        new Vector2( Screen.width * 0f, Screen.height * 0.33f * -1f ),
+        new Vector2( Screen.width * 0.33f, Screen.height * 0.33f * -1f )
     };
 
     private List<BlockShape> blockShapes;
@@ -34,7 +34,7 @@ public class IGBlockController : IGController
         return totalPlacedBlocks;
     }
 
-    // ÀÌ ¸Þ¼­µå¸¦ ºí·ÏÀÌ ¼º°øÀûÀ¸·Î ¹èÄ¡µÉ ¶§¸¶´Ù È£Ãâ
+    // ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
     private void IncrementPlacedBlocks()
     {
         totalPlacedBlocks++;
