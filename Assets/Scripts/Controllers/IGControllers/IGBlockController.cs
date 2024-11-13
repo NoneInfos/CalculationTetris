@@ -22,6 +22,8 @@ public class IGBlockController : IGController
     public List<IGBlock> AvailableBlocks { get; private set; }
 
     private int totalPlacedBlocks = 0;
+
+
     private void PrepareNextBlock()
     {
         _nextBlock = CreateNewBlock();
@@ -34,7 +36,6 @@ public class IGBlockController : IGController
         return totalPlacedBlocks;
     }
 
-    // �� �޼��带 ������ ���������� ��ġ�� ������ ȣ��
     private void IncrementPlacedBlocks()
     {
         totalPlacedBlocks++;
@@ -148,7 +149,7 @@ public class IGBlockController : IGController
     public void PlaceBlockOnBoard(IGBlock block)
     {
         IncrementPlacedBlocks();
-        _engine._boardController.PlaceBlockOnBoard(block);
+        //_engine._boardController.PlaceBlockOnBoard(block);
     }
 
     public void AnimatePlaceBlockOnBoard()

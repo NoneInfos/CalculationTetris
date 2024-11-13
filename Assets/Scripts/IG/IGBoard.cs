@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 namespace IGMain
 {
@@ -13,6 +14,13 @@ namespace IGMain
         public Dictionary<int, List<IGBoardTile>> Rows;
 
         public Dictionary<int, List<IGBoardTile>> Cols;
+
+
+
+        public IGBoard() 
+        {
+            Initialize();
+        }
 
         public override void Initialize()
         {
@@ -80,8 +88,8 @@ namespace IGMain
             }
         }
 
-    
-    
+
+
         // public bool IsFilledRow(int row)
         // {
         //     return Rows[row].All(tile => tile.IsFilled);
@@ -91,5 +99,184 @@ namespace IGMain
         // {
         //     return Cols[col].All(tile => tile.IsFilled);
         // }
+
+
+        private void AnimateClearLine(int index, bool isRow)
+        {
+            for (int i = 0; i < (isRow ? IGConfig.BOARD_COL : IGConfig.BOARD_ROW); i++)
+            {
+                var tile = board[isRow ? index : i, isRow ? i : index];
+                tile.GetComponent<SpriteRenderer>().DOFade(0, 0.3f).OnComplete(() => {
+                    tile.IsPlaceBlock = false;
+                    tile.ResetTile();
+                    tile.GetComponent<SpriteRenderer>().DOFade(1, 0.1f);
+                });
+            }
+        }
+
+        private void AnimateClearSquare(int startX, int startY)
+        {
+            for (int y = startY; y < startY + 3; y++)
+            {
+                for (int x = startX; x < startX + 3; x++)
+                {
+                    var tile = board[y, x];
+                    tile.GetComponent<SpriteRenderer>().DOFade(0, 0.3f).OnComplete(() => {
+                        tile.IsPlaceBlock = false;
+                        tile.ResetTile();
+                        tile.GetComponent<SpriteRenderer>().DOFade(1, 0.1f);
+                    });
+                }
+            }
+        }
+
+        private void ClearSquare(int startX, int startY)
+        {
+            for (int y = startY; y < startY + 3; y++)
+            {
+                for (int x = startX; x < startX + 3; x++)
+                {
+                    board[y, x].IsPlaceBlock = false;
+                    board[y, x].ResetTile();
+                }
+            }
+            AudioManager.Instance.Play("SquareClear");
+            IncrementClearedSquares();
+        }
+
+        public bool CanPlaceBlock(IGBlock block, int boardX, int boardY)
+        {
+            foreach (var node in block.BlockNodes)
+            {
+                int x = boardX + Mathf.RoundToInt(node.transform.localPosition.x / IGConfig.TILE_WIDTH);
+                int y = boardY + Mathf.RoundToInt(node.transform.localPosition.y / IGConfig.TILE_HEIGHT);
+
+                if (x < 0 || x >= IGConfig.BOARD_COL || y < 0 || y >= IGConfig.BOARD_ROW)
+                    return false;
+
+                if (board[y, x].IsPlaceBlock)
+                    return false;
+            }
+            return true;
+        }
+
+
+        private Vector2Int WorldToBoardPosition(Vector3 worldPosition)
+        {
+            Vector3 localPosition = transform.InverseTransformPoint(worldPosition);
+            return new Vector2Int(
+                Mathf.RoundToInt(localPosition.x / IGConfig.TILE_WIDTH),
+                Mathf.RoundToInt(localPosition.y / IGConfig.TILE_HEIGHT)
+            );
+        }
+
+        public void PlaceBlockOnBoard(IGBlock block)
+        {
+            var blockPosToBoardPos = WorldToBoardPosition(block.transform.position);
+
+            if (!CanPlaceBlock(block, blockPosToBoardPos.x, blockPosToBoardPos.y))
+                return;
+
+            foreach (var node in block.BlockNodes)
+            {
+                int x = blockPosToBoardPos.x + Mathf.RoundToInt(node.transform.localPosition.x / IGConfig.TILE_WIDTH);
+                int y = blockPosToBoardPos.y + Mathf.RoundToInt(node.transform.localPosition.y / IGConfig.TILE_HEIGHT);
+
+                board[x, y].IsPlaceBlock = true;
+
+                node.transform.parent = board[x, y].transform;
+                node.transform.localPosition = Vector3.zero;
+            }
+
+            CheckAndClearLines();
+        }
+
+
+        private void CheckAndClearLines()
+        {
+            int clearedLines = 0;
+
+            // Check rows
+            for (int y = 0; y < IGConfig.BOARD_ROW; y++)
+            {
+                if (IsLineFull(y, true))
+                {
+                    ClearLine(y, true);
+                    clearedLines++;
+                }
+            }
+
+            for (int x = 0; x < IGConfig.BOARD_COL; x++)
+            {
+                if (IsLineFull(x, false))
+                {
+                    ClearLine(x, false);
+                    clearedLines++;
+                }
+            }
+
+            for (int y = 0; y < IGConfig.BOARD_ROW; y += 3)
+            {
+                for (int x = 0; x < IGConfig.BOARD_COL; x += 3)
+                {
+                    if (IsSquareFull(x, y))
+                    {
+                        ClearSquare(x, y);
+                        clearedLines++;
+                    }
+                }
+            }
+
+            ScoreManager.Instance.AddScore(clearedLines);
+
+            SaveManager.Instance.AddLinesCleared(clearedLines);
+        }
+
+
+        private bool IsLineFull(int index, bool isRow)
+        {
+            for (int i = 0; i < (isRow ? IGConfig.BOARD_COL : IGConfig.BOARD_ROW); i++)
+            {
+                if (!board[isRow ? index : i, isRow ? i : index].IsPlaceBlock)
+                    return false;
+            }
+            return true;
+        }
+
+        private void ClearLine(int index, bool isRow)
+        {
+            for (int i = 0; i < (isRow ? IGConfig.BOARD_COL : IGConfig.BOARD_ROW); i++)
+            {
+                board[isRow ? index : i, isRow ? i : index].IsPlaceBlock = false;
+                board[isRow ? index : i, isRow ? i : index].ResetTile();
+            }
+            AudioManager.Instance.Play("LineClear");
+            IncrementClearedLines(1);
+        }
+
+        private bool IsSquareFull(int startX, int startY)
+        {
+            for (int y = startY; y < startY + 3; y++)
+            {
+                for (int x = startX; x < startX + 3; x++)
+                {
+                    if (!board[y, x].IsPlaceBlock)
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        private void IncrementClearedLines(int linesCleared)
+        {
+            //totalClearedLines += linesCleared;
+        }
+
+        private void IncrementClearedSquares()
+        {
+            //totalClearedSquares++;
+        }
+
+
     }
 }
