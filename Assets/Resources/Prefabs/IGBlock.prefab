@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3531886660877680803}
   - component: {fileID: 6427665769801201193}
+  - component: {fileID: 2490701047649359573}
+  - component: {fileID: 1205850131089797785}
   - component: {fileID: 2736775691294103377}
   m_Layer: 3
   m_Name: IGBlock
@@ -44,6 +46,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be0bb27ed00da6446920afd313fc4e8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2490701047649359573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294475042320650749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54ee2e66755774924b976d0b3c708cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1205850131089797785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294475042320650749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff356994e602ba3449039b9eed2dd536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!61 &2736775691294103377

@@ -6,6 +6,10 @@ namespace IGMain
 {
     public class IGBlockTile : IGTile
     {
+        [SerializeField] Sprite SPR_BG;
+
+
+        
         private Collider2D _nearestColider;
 
         private float _nearestObjectDist;

@@ -41,10 +41,10 @@ namespace IGMain
 
             }
 
-            _spriteRenderer.color = IsColide ? Color.red : Color.black;
+            //_spriteRenderer.color = IsColide ? Color.red : Color.black;
 
 
-            IsColide = false;
+            //IsColide = false;
         }
 
 
@@ -67,9 +67,9 @@ namespace IGMain
         public void ResetTile()
         {
             IsPlaceBlock = false;
-            // Å¸ÀÏÀÇ ½Ã°¢Àû »óÅÂ¸¦ ÃÊ±âÈ­
-            _spriteRenderer.color = Color.white; // ¶Ç´Â ±âº» »ö»óÀ¸·Î ¼³Á¤
-                                                 // ÇÊ¿äÇÑ °æ¿ì ´Ù¸¥ ¼Ó¼ºµéµµ ÃÊ±âÈ­
+            // Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½Ê±ï¿½È­
+            _spriteRenderer.color = Color.white; // ï¿½Ç´ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                                                 // ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½Ó¼ï¿½ï¿½éµµ ï¿½Ê±ï¿½È­
         }
 
     }

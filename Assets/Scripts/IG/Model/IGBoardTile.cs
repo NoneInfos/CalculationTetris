@@ -14,18 +14,7 @@ namespace IGMain
 
         // public IsFilled     {get; private set;}
     
-        // private void OnTriggerEnter2D(Collider2D collision)
-        // {
-            
-        // }
-        // private void OnTriggerStay2D(Collider2D collision)
-        // {
-          
-        // }
-        // private void OnTriggerExit2D(Collider2D collision)
-        // {
-           
-        // }
+       
     
     }
 }
