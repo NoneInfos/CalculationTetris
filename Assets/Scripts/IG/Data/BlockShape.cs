@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 public class BlockShape
 {
@@ -26,5 +27,9 @@ public class BlockShape
             }
         }
         return new BlockShape(rotated, Complexity);
+    }
+
+    private void OnDestroy(){
+        
     }
 }

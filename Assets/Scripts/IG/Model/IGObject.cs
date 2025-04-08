@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -25,6 +26,14 @@ namespace IGMain
             State = EState.None;
         }
 
+        public virtual void Clear(){
+
+        }
+
+        public virtual void OnDestroy(){
+
+        }
+
         public void SetPos(Vector2 pos)
         {
             this.transform.position = pos;
@@ -33,5 +42,7 @@ namespace IGMain
         {
             Index = index;
         }
+        
+       
     }
 }

@@ -1,9 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using IGMain;
 using UnityEngine;
 
-public class IGBlockManager : MonoBehaviour
+public class IGBlockManager : ManagerBase<IGBlockManager>
 {
+    private IGBlockController _blockController;
+    private List<IGBlock> _blockList;
+
+    public override void InitializeManager()
+    {
+        if(_blockList != null){
+            if(_blockList.Count > 0)
+                ClearManager();
+        }
+        else
+            _blockList = new List<IGBlock>();
+
+    }
+    public override void ClearManager()
+    {
+        foreach(var block in _blockList){
+            if(block != null)
+                Destroy(block);
+        }
+
+        _blockList.Clear();
+    }
+
+    
+
+    public override void FinalizeManager()
+    {
+    }
 
 
     public void CreateBlock(int[,] shape)
@@ -22,4 +51,5 @@ public class IGBlockManager : MonoBehaviour
         //    }
         //}
     }
+    
 }

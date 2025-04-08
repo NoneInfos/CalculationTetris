@@ -6,6 +6,7 @@ using IGMain;
 
 public class IGBlockController : ControllerBase
 {
+    private IGBlockManager _blockManager;
 
     private List<Vector2> spawnPositions = new List<Vector2>() 
     {
@@ -59,9 +60,14 @@ public class IGBlockController : ControllerBase
 
     public override void InitializeController()
     {
+        _blockManager = IGBlockManager.Instance;
+
+
         InitializeBlockShapes();
         SpawnBlocks();
         PrepareNextBlock();
+
+        
 
     }
 
@@ -96,7 +102,7 @@ public class IGBlockController : ControllerBase
         block.gameObject.transform.SetParent(this.transform);
 
         IGBlock igBlock = block.GetComponent<IGBlock>();
-        igBlock.BlockController = this;
+        //igBlock.BlockController = this;
         igBlock.SetBlockShape(randomShape);
     }
     public void RotateSelectedBlock()
@@ -123,7 +129,7 @@ public class IGBlockController : ControllerBase
             block.gameObject.transform.localPosition = spawnPositions[i];
             block.gameObject.transform.parent = this.transform;
 
-            block.GetComponent<IGBlock>().BlockController = this;
+            //block.GetComponent<IGBlock>().BlockController = this;
         }
     }
 
@@ -205,10 +211,12 @@ public class IGBlockController : ControllerBase
 
     public bool CheckNearestTiles()
     {
-        return SelectedBlock != null &&
-            SelectedBlock.BlockNodes != null &&
-            SelectedBlock.BlockNodes.Any(node => node.NearestTile != null &&
-            node.NearestTile.State == IGMain.EState.UnStable) == false;
+        // return SelectedBlock != null &&
+        //     //SelectedBlock.BlockNodes != null &&
+        //     //SelectedBlock.BlockNodes.Any(node => node.NearestTile != null &&
+            //node.NearestTile.State == IGMain.EState.UnStable) == false;
+
+            return true;
     }
 
     private IGBlock CreateNewBlock()
@@ -218,7 +226,7 @@ public class IGBlockController : ControllerBase
         block.gameObject.SetActive(false);
 
         IGBlock igBlock = block.GetComponent<IGBlock>();
-        igBlock.BlockController = this;
+        //igBlock.BlockController = this;
         igBlock.SetBlockShape(randomShape);
 
         if (AvailableBlocks == null)

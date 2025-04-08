@@ -6,29 +6,32 @@ namespace IGMain
 {
     public class IGGameManager : ManagerBase<IGGameManager>
     {
-        public IGGameController _gameController { private set; get; }
+        private IGBlockManager _blockManager;
 
-        public IGInputController _inputController { private set; get; }
-
-        private bool _isGameOver = false;
+        private IGBoardManager _boardManager;
 
 
+        public override void InitializeManager()
+        {
+            _blockManager = IGBlockManager.Instance;
+            _boardManager = IGBoardManager.Instance;
+
+           _blockManager.InitializeManager();
+           _boardManager.InitializeManager();
+        }
         public override void ClearManager()
         {
+            _blockManager.ClearManager();
+            _boardManager.ClearManager();
         }
 
         public override void FinalizeManager()
         {
+            _blockManager.FinalizeManager();
+            _boardManager.FinalizeManager();
         }
 
-        public override void InitializeManager()
-        {
-            _gameController = CreateObj<IGGameController>(this.transform, true, "InGame");
-            //_gameController.SetEngine(this);
-            _gameController.InitializeController();
-
-           
-        }
+        
 
       
     }
