@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using IGMain;
 
-public class PoolManager : SingletonClass<PoolManager>, ManagerBase
+public enum ETileType
+{
+    BG,
+    Block,
+    BlockNode,
+}
+
+
+public class PoolManager : ManagerBase<PoolManager>
 {
     public readonly int POOL_COUNT = 81;
 
@@ -69,26 +77,21 @@ public class PoolManager : SingletonClass<PoolManager>, ManagerBase
             }
         }
     }
+  
 
-    public void InitializeManager()
+    public override void InitializeManager()
     {
         Create(ETileType.BG);
         Create(ETileType.BlockNode);
         Create(ETileType.Block);
     }
 
-    public void ClearManager()
+    public override void ClearManager()
     {
     }
 
-    public void FinalizeManager()
+    public override void FinalizeManager()
     {
     }
 }
 
-public enum ETileType
-{
-    BG,
-    Block,
-    BlockNode,
-}

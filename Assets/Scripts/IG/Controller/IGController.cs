@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class IGController : MonoBehaviour, ControllerBase
+public abstract class IGController : MonoBehaviour
 {
     protected IGEngine _engine;
 

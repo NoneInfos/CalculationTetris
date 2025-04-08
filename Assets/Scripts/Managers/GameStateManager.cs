@@ -9,14 +9,15 @@ public enum GameState
     Paused,
     GameOver
 }
-public class GameStateManager : SingletonClass<GameStateManager>
+public class GameStateManager : ManagerBase<GameStateManager>
 {
 
     public GameState CurrentState { get; private set; }
     public event System.Action<GameState> OnGameStateChanged;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
     }
 
     public void SetGameState(GameState newState)
@@ -26,5 +27,17 @@ public class GameStateManager : SingletonClass<GameStateManager>
             CurrentState = newState;
             OnGameStateChanged?.Invoke(CurrentState);
         }
+    }
+
+    public override void InitializeManager()
+    {
+    }
+
+    public override void ClearManager()
+    {
+    }
+
+    public override void FinalizeManager()
+    {
     }
 }

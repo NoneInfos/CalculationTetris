@@ -5,7 +5,7 @@ using UniRx;
 using IGMain;
 using DG.Tweening;
 
-public class IGBoardController : IGController
+public class IGBoardController : ControllerBase
 {
 
     [SerializeField] private SpriteRenderer gridLineRenderer;
@@ -51,21 +51,21 @@ public class IGBoardController : IGController
 
 
 
-    public bool IsGameOver()
-    {
-        foreach (var block in _engine._blockController.AvailableBlocks)
-        {
-            for (int y = 0; y < IGConfig.BOARD_ROW; y++)
-            {
-                for (int x = 0; x < IGConfig.BOARD_COL; x++)
-                {
-                    if (_IGBoard.CanPlaceBlock(block, x, y))
-                        return false;
-                }
-            }
-        }
-        return true;
-    }
+    //public bool IsGameOver()
+    //{
+    //    foreach (var block in _engine._blockController.AvailableBlocks)
+    //    {
+    //        for (int y = 0; y < IGConfig.BOARD_ROW; y++)
+    //        {
+    //            for (int x = 0; x < IGConfig.BOARD_COL; x++)
+    //            {
+    //                if (_IGBoard.CanPlaceBlock(block, x, y))
+    //                    return false;
+    //            }
+    //        }
+    //    }
+    //    return true;
+    //}
 
     public override void ClearController()
     {

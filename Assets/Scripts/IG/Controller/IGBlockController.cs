@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using IGMain;
 
-public class IGBlockController : IGController
+public class IGBlockController : ControllerBase
 {
 
     private List<Vector2> spawnPositions = new List<Vector2>() 
@@ -103,7 +103,7 @@ public class IGBlockController : IGController
     {
         if (SelectedBlock != null)
         {
-            SelectedBlock.Rotate();
+            //SelectedBlock.Rotate();
         }
     }
 
@@ -141,9 +141,52 @@ public class IGBlockController : IGController
         IsBlockMoving = false;
     }
 
-    public void HandleBlockeOnDrag()
-    {
-    }
+    //public void OnPointerDown(PointerEventData eventData)
+    //{
+    //    if (State == EState.UnStable)
+    //        return;
+
+    //    HandleOnPointerDown();
+
+    //    BlockController.HandleBlockOnPointerDown(this);
+    //    AudioManager.Instance.Play("BlockPickup");
+    //}
+    //public void OnPointerUp(PointerEventData eventData)
+    //{
+    //    if (State == EState.UnStable)
+    //        return;
+
+    //    HandleOnPointerUp();
+
+    //    BlockController.HandleBlockOnPointerUp();
+    //    AudioManager.Instance.Play("BlockPlace");
+    //}
+
+
+    //public void OnDrag(PointerEventData eventData)
+    //{
+    //    if (State == EState.UnStable)
+    //        return;
+
+    //    this.transform.position = Camera.main.ScreenToWorldPoint(eventData.position);
+
+    //    BlockController.HandleBlockeOnDrag();
+    //}
+
+    //private void HandleOnPointerDown()
+    //{
+    //    this.transform.localScale = Vector3.one;
+
+    //    foreach (var node in BlockNodes)
+    //    {
+    //        node.transform.localScale = new Vector3(.8f, .8f, .8f);
+    //    }
+    //}
+
+    //private void HandleOnPointerUp()
+    //{
+
+    //}
 
 
     public void PlaceBlockOnBoard(IGBlock block)
@@ -157,7 +200,7 @@ public class IGBlockController : IGController
         if (SelectedBlock == null)
             return;
 
-        SelectedBlock.AnimatePlaceBlockOnBoard();
+        //SelectedBlock.AnimatePlaceBlockOnBoard();
     }
 
     public bool CheckNearestTiles()

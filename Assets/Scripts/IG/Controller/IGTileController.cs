@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using IGMain;
-public class IGTileController : IGController
+public class IGTileController : ControllerBase
 {
     private List<IGTile> _tileList = new List<IGTile>();
     public List<IGTile> TileList { get { return _tileList; }  }
