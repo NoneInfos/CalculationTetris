@@ -4,17 +4,13 @@ using UnityEngine;
 using IGMain;
 public class IGEngine : MonoBehaviour
 {
-
     private float gameTime = 0f;
 
     [SerializeField] private GameObject settingsMenuPanel;
 
     [SerializeField] Transform TF_Cameras;
 
-    private bool isChallengeModeActive = false;
 
-
-    private float gameStartTime;
 
     private void Awake()
     {
@@ -49,7 +45,7 @@ public class IGEngine : MonoBehaviour
 
     private void Start()
     {
-
+        StartGame();
     }
    
     private void OnDestroy()

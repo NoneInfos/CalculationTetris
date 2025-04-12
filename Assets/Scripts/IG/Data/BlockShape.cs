@@ -2,32 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Linq;
+
+
 public class BlockShape
 {
     public int[,] Shape { get; private set; }
     public int Width { get; private set; }
     public int Height { get; private set; }
     public int Complexity { get; private set; }
-    public BlockShape(int[,] shape, int complexity)
+
+    
+
+    public BlockShape()
     {
-        Shape = shape;
-        Height = shape.GetLength(0);
-        Width = shape.GetLength(1);
-        Complexity = complexity;
+        int random = Random.Range(0, IGConfig.BlockTypes.Count);
+        Shape = IGConfig.BlockTypes.ElementAt(random).Value;
+        Height = Shape.GetLength(0);
+        Width = Shape.GetLength(1);
+        Complexity = 0;
     }
 
-    public BlockShape Rotate()
-    {
-        int[,] rotated = new int[Width, Height];
-        for (int i = 0; i < Height; i++)
-        {
-            for (int j = 0; j < Width; j++)
-            {
-                rotated[j, Height - 1 - i] = Shape[i, j];
-            }
-        }
-        return new BlockShape(rotated, Complexity);
-    }
 
     private void OnDestroy(){
         

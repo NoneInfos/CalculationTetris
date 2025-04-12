@@ -24,6 +24,9 @@ namespace IGMain
         {
             Index = 0;
             State = EState.None;
+
+            //ApplyTheme(ThemeManager.Instance.CurrentTheme);
+            //ThemeManager.Instance.OnThemeChanged += ApplyTheme;
         }
 
         public virtual void Clear(){
@@ -42,6 +45,7 @@ namespace IGMain
         {
             Index = index;
         }
+
         
        
     }

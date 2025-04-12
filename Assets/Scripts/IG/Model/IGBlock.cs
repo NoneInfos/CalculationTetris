@@ -9,11 +9,9 @@ namespace IGMain
 {
     public class IGBlock : IGObject
     {    
-        private List<IGBlockTile> _blockTileList;
+        private IGBlockTile[,] _blockTiles;
 
-        private BlockShape _currentShape;
-
-        private int[,] blockType = IGConfig.IBlock;
+        private BlockShape _blockShape;
 
         private Vector2 initialPosition = Vector2.zero;
 
@@ -23,13 +21,16 @@ namespace IGMain
 
             this.transform.position = initialPosition;
 
-            if (_blockTileList != null){
-                if(_blockTileList.Count > 0){
+            if (_blockTiles != null){
+                if(_blockTiles.Length > 0){
                     Clear();
                 }
             }
-            else
-                _blockTileList = new List<IGBlockTile>();
+
+            CreateBlock();
+
+            this.transform.localScale = new Vector3(.7f, .7f, .7f);
+            initialPosition = this.transform.position;
         }
 
         public override void OnDestroy()
@@ -41,60 +42,56 @@ namespace IGMain
         public override void Clear()
         {
             base.Clear();
-            foreach (var tile in _blockTileList)
+
+            _blockShape = null;
+
+            for (int x = 0; x < _blockTiles.GetLength(1); ++x)
             {
-                PoolManager.Instance.Push(ETileType.BlockNode, tile.gameObject);
-            }
-            _blockTileList.Clear();
-        }
-
-
-
-        private void Create()
-        {
-
-            
-            for(int x = 0; x < 3; ++x)
-            {
-               for(int y = 0; y < 3; ++y)
-               {
-                   var index = x * 3 + y;
-                   if (blockType[x,y] == 1)
-                       _blockTileList[index].gameObject.SetActive(true);
-                   else
-                   {
-                       _blockTileList[index].gameObject.SetActive(false);
-                   }
-               }
-            }
-            this.transform.localScale = new Vector3(.7f, .7f, .7f);
-
-            initialPosition = this.transform.position;
-
-            //ApplyTheme(ThemeManager.Instance.CurrentTheme);
-            //ThemeManager.Instance.OnThemeChanged += ApplyTheme;
-        }
-        
-
-
-        public void SetBlockShape(BlockShape shape)
-        {
-            _currentShape = shape;
-        }
-
-
-        public bool IsAllBlockNodeColideWithBoardNode()
-        {   
-            if(_blockTileList == null || _blockTileList.Count < 1)
+                for (int y = 0; y < _blockTiles.GetLength(0); ++y)
                 {
-                    return false;
+                    if(_blockTiles[x,y] != null)
+                        PoolManager.Instance.Push<IGBlockTile>(EPoolType.BlockTile, _blockTiles[x, y]);
                 }
-
-                foreach(var node in _blockTileList)
-                    if(!node.IsColide)
-                        return false;
-
-                return true;
+            }
         }
+
+      
+
+        public void CreateBlock()
+        {
+            _blockTiles = new IGBlockTile[IGConfig.BLOCK_WIDTH, IGConfig.BLOCK_HEIGHT];
+            _blockShape = new BlockShape();
+
+            for (int y = -1; y < _blockShape.Height - 1; ++y)
+            {
+                for (int x = -1; x < _blockShape.Width - 1; ++x)
+                {
+                    if (_blockShape.Shape[y + 1, x + 1] == 1)
+                    {
+                        IGBlockTile tile = PoolManager.Instance.Pop<IGBlockTile>(EPoolType.BlockTile);
+                        tile.transform.SetParent(transform);
+                        tile.transform.localPosition = new Vector3(x, -y, 0) * IGConfig.TILE_WIDTH;
+                        _blockTiles[x + 1,y + 1] = tile;
+                    }
+                }
+            }
+        }
+
+       
+
+
+        //public bool IsAllBlockNodeColideWithBoardNode()
+        //{   
+        //    if(_blockTileList == null || _blockTileList.Count < 1)
+        //        {
+        //            return false;
+        //        }
+
+        //        foreach(var node in _blockTileList)
+        //            if(!node.IsColide)
+        //                return false;
+
+        //        return true;
+        //}
     }
 }

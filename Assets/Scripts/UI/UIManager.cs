@@ -93,11 +93,11 @@ public class UIManager : SingletonClass<UIManager>
             Destroy(child.gameObject);
         }
 
-        foreach (var node in nextBlock.BlockNodes)
-        {
-            var previewNode = Instantiate(node, NextBlockPreview.transform);
-            previewNode.transform.localPosition = node.transform.localPosition;
-        }
+        //foreach (var node in nextBlock.BlockNodes)
+        //{
+        //    var previewNode = Instantiate(node, NextBlockPreview.transform);
+        //    previewNode.transform.localPosition = node.transform.localPosition;
+        //}
     }
 
     public void ShowLeaderboard()

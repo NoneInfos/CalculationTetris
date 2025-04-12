@@ -13,11 +13,12 @@ namespace IGMain
 
         public override void InitializeManager()
         {
-            _blockManager = IGBlockManager.Instance;
             _boardManager = IGBoardManager.Instance;
+            _blockManager = IGBlockManager.Instance;
 
-           _blockManager.InitializeManager();
-           _boardManager.InitializeManager();
+
+            _boardManager.InitializeManager();
+            _blockManager.InitializeManager();
         }
         public override void ClearManager()
         {
@@ -30,8 +31,6 @@ namespace IGMain
             _blockManager.FinalizeManager();
             _boardManager.FinalizeManager();
         }
-
-        
 
       
     }

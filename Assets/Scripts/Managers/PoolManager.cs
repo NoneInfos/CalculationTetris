@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using IGMain;
 
-public enum ETileType
+public enum EPoolType
 {
-    BG,
     Block,
-    BlockNode,
+    BlockTile,
 }
 
 
@@ -17,35 +16,47 @@ public class PoolManager : ManagerBase<PoolManager>
 
     private const string PREFAB_ROOT_PATH = "Prefabs/";
 
-    private Dictionary<ETileType, Queue<GameObject>> _poolList = new Dictionary<ETileType, Queue<GameObject>>();
+    private Dictionary<EPoolType, Queue<IGObject>> _poolList = new Dictionary<EPoolType, Queue<IGObject>>();
 
-    private Dictionary<ETileType, string> _objectPath = new Dictionary<ETileType, string>() 
+    private Dictionary<EPoolType, string> _objectPath = new Dictionary<EPoolType, string>() 
     {
-        { ETileType.BG, "IGTile" },
-        { ETileType.Block, "IGBlock" },
-        { ETileType.BlockNode, "IGBlockTile" }
+        { EPoolType.Block, "IGBlock" },
+        { EPoolType.BlockTile, "IGBlockTile" },
     };
 
-    public void Push(ETileType type, GameObject obj)
+    public void Push<T>(EPoolType type, T obj) where T : IGObject
     {
         obj.transform.parent = this.transform;
         obj.gameObject.SetActive(false);
         _poolList[type].Enqueue(obj);
     }
 
-    public GameObject Pop(ETileType type)
+    public T Pop<T>(EPoolType type) where T : IGObject
     {
-        if(_poolList[type].Count <= 0)
+        if(_poolList.ContainsKey(type) == false)
         {
             Create(type);
             Debug.Log($"PoolManager Create {type} Total Pooling Count : {_poolList[type].Count}");
         }
-        var obj =  _poolList[type].Dequeue();
-        obj.SetActive(true);
-        return obj;
+        else if (_poolList[type].Count <= 0)
+        {
+            Create(type);
+            Debug.Log($"PoolManager Create {type} Total Pooling Count : {_poolList[type].Count}");
+        }
+
+        var obj = _poolList[type].Dequeue();
+        obj.gameObject.SetActive(true);
+
+        T component = obj.GetComponent<T>();
+        if (component == null)
+        {
+            Debug.LogError($"Object in pool doesn't have component of type {typeof(T)}");
+        }
+
+        return component;
     }
 
-    private void Create(ETileType type)
+    private void Create(EPoolType type)
     {
         var resource = Resources.Load<GameObject>(PREFAB_ROOT_PATH + $"{_objectPath[type]}");
 
@@ -55,15 +66,20 @@ public class PoolManager : ManagerBase<PoolManager>
 
         if (_poolList.ContainsKey(type) == false)
         {
-            _poolList.Add(type, new Queue<GameObject>());
+            _poolList.Add(type, new Queue<IGObject>());
         }
+
 
         for (int count = 0; count < POOL_COUNT; ++count)
         {
             var prefab = Instantiate(resource,this.transform);
             prefab.SetActive(false);
-            prefab?.GetComponent<IGObject>()?.Initialize();
-            _poolList[type].Enqueue(prefab);
+
+            IGObject igObject = prefab.GetComponent<IGObject>();
+
+            igObject?.Initialize();
+
+            _poolList[type].Enqueue(igObject);
         }
 
     }
@@ -81,9 +97,6 @@ public class PoolManager : ManagerBase<PoolManager>
 
     public override void InitializeManager()
     {
-        Create(ETileType.BG);
-        Create(ETileType.BlockNode);
-        Create(ETileType.Block);
     }
 
     public override void ClearManager()

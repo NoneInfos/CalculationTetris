@@ -19,6 +19,39 @@ public class IGConfig
     public static readonly int TILE_WIDTH_HALF = TILE_WIDTH / 2;
     public static readonly int TILE_HEIGHT_HALF = TILE_HEIGHT / 2;
 
+    public static readonly int BLOCK_WIDTH = 3;
+    public static readonly int BLOCK_HEIGHT = 3;
+
+
+    public static readonly Dictionary<EBlockShapeType, int[,]> BlockTypes;
+
+    static IGConfig()
+    {
+        BlockTypes = new Dictionary<EBlockShapeType, int[,]>()
+        {
+            { EBlockShapeType.IBlock, IBlock },
+            { EBlockShapeType.OBlock, OBlock },
+            { EBlockShapeType.ZBlock, ZBlock },
+            { EBlockShapeType.SBlock, SBlock },
+            { EBlockShapeType.JBlock, JBlock },
+            { EBlockShapeType.LBlock, LBlock },
+            { EBlockShapeType.TBlock, TBlock },
+        };
+    }
+
+
+    public enum EBlockShapeType
+    {
+        IBlock,
+        OBlock,
+        ZBlock,
+        SBlock,
+        JBlock,
+        LBlock,
+        TBlock,
+    }
+
+
     public static readonly int[,] IBlock =
     {
         {1,1,1},

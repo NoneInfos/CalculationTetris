@@ -15,17 +15,10 @@ namespace IGMain
 
         public Dictionary<int, List<IGBoardTile>> Cols;
 
-
-
-        public IGBoard() 
-        {
-            Initialize();
-        }
-
         public override void Initialize()
         {
             base.Initialize();
-
+            Debug.Log("IGBoard Initialize");
             GenerateBoard();
             
             //var path ="Prefabs/IGBlockTile";
@@ -101,34 +94,34 @@ namespace IGMain
         // }
 
 
-        private void AnimateClearLine(int index, bool isRow)
-        {
-            for (int i = 0; i < (isRow ? IGConfig.BOARD_COL : IGConfig.BOARD_ROW); i++)
-            {
-                var tile = board[isRow ? index : i, isRow ? i : index];
-                tile.GetComponent<SpriteRenderer>().DOFade(0, 0.3f).OnComplete(() => {
-                    tile.IsPlaceBlock = false;
-                    tile.ResetTile();
-                    tile.GetComponent<SpriteRenderer>().DOFade(1, 0.1f);
-                });
-            }
-        }
+        //private void AnimateClearLine(int index, bool isRow)
+        //{
+        //    for (int i = 0; i < (isRow ? IGConfig.BOARD_COL : IGConfig.BOARD_ROW); i++)
+        //    {
+        //        var tile = board[isRow ? index : i, isRow ? i : index];
+        //        tile.GetComponent<SpriteRenderer>().DOFade(0, 0.3f).OnComplete(() => {
+        //            tile.IsPlaceBlock = false;
+        //            tile.ResetTile();
+        //            tile.GetComponent<SpriteRenderer>().DOFade(1, 0.1f);
+        //        });
+        //    }
+        //}
 
-        private void AnimateClearSquare(int startX, int startY)
-        {
-            for (int y = startY; y < startY + 3; y++)
-            {
-                for (int x = startX; x < startX + 3; x++)
-                {
-                    var tile = board[y, x];
-                    tile.GetComponent<SpriteRenderer>().DOFade(0, 0.3f).OnComplete(() => {
-                        tile.IsPlaceBlock = false;
-                        tile.ResetTile();
-                        tile.GetComponent<SpriteRenderer>().DOFade(1, 0.1f);
-                    });
-                }
-            }
-        }
+        //private void AnimateClearSquare(int startX, int startY)
+        //{
+        //    for (int y = startY; y < startY + 3; y++)
+        //    {
+        //        for (int x = startX; x < startX + 3; x++)
+        //        {
+        //            var tile = board[y, x];
+        //            tile.GetComponent<SpriteRenderer>().DOFade(0, 0.3f).OnComplete(() => {
+        //                tile.IsPlaceBlock = false;
+        //                tile.ResetTile();
+        //                tile.GetComponent<SpriteRenderer>().DOFade(1, 0.1f);
+        //            });
+        //        }
+        //    }
+        //}
 
         private void ClearSquare(int startX, int startY)
         {
@@ -146,17 +139,17 @@ namespace IGMain
 
         public bool CanPlaceBlock(IGBlock block, int boardX, int boardY)
         {
-            foreach (var node in block.BlockNodes)
-            {
-                int x = boardX + Mathf.RoundToInt(node.transform.localPosition.x / IGConfig.TILE_WIDTH);
-                int y = boardY + Mathf.RoundToInt(node.transform.localPosition.y / IGConfig.TILE_HEIGHT);
+            //foreach (var node in block.BlockNodes)
+            //{
+            //    int x = boardX + Mathf.RoundToInt(node.transform.localPosition.x / IGConfig.TILE_WIDTH);
+            //    int y = boardY + Mathf.RoundToInt(node.transform.localPosition.y / IGConfig.TILE_HEIGHT);
 
-                if (x < 0 || x >= IGConfig.BOARD_COL || y < 0 || y >= IGConfig.BOARD_ROW)
-                    return false;
+            //    if (x < 0 || x >= IGConfig.BOARD_COL || y < 0 || y >= IGConfig.BOARD_ROW)
+            //        return false;
 
-                if (board[y, x].IsPlaceBlock)
-                    return false;
-            }
+            //    if (board[y, x].IsPlaceBlock)
+            //        return false;
+            //}
             return true;
         }
 
@@ -177,16 +170,16 @@ namespace IGMain
             if (!CanPlaceBlock(block, blockPosToBoardPos.x, blockPosToBoardPos.y))
                 return;
 
-            foreach (var node in block.BlockNodes)
-            {
-                int x = blockPosToBoardPos.x + Mathf.RoundToInt(node.transform.localPosition.x / IGConfig.TILE_WIDTH);
-                int y = blockPosToBoardPos.y + Mathf.RoundToInt(node.transform.localPosition.y / IGConfig.TILE_HEIGHT);
+            //foreach (var node in block.BlockNodes)
+            //{
+            //    int x = blockPosToBoardPos.x + Mathf.RoundToInt(node.transform.localPosition.x / IGConfig.TILE_WIDTH);
+            //    int y = blockPosToBoardPos.y + Mathf.RoundToInt(node.transform.localPosition.y / IGConfig.TILE_HEIGHT);
 
-                board[x, y].IsPlaceBlock = true;
+            //    board[x, y].IsPlaceBlock = true;
 
-                node.transform.parent = board[x, y].transform;
-                node.transform.localPosition = Vector3.zero;
-            }
+            //    node.transform.parent = board[x, y].transform;
+            //    node.transform.localPosition = Vector3.zero;
+            //}
 
             CheckAndClearLines();
         }

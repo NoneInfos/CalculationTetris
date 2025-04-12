@@ -17,6 +17,9 @@ public class IGBlockManager : ManagerBase<IGBlockManager>
         else
             _blockList = new List<IGBlock>();
 
+
+        SpawnBlocks();
+
     }
     public override void ClearManager()
     {
@@ -32,24 +35,28 @@ public class IGBlockManager : ManagerBase<IGBlockManager>
 
     public override void FinalizeManager()
     {
+
     }
 
-
-    public void CreateBlock(int[,] shape)
+    public void SpawnBlocks()
     {
-        //for (int y = -1; y < shape.GetLength(0) - 1; ++y)
-        //{
-        //    for (int x = -1; x < shape.GetLength(1) - 1; ++x)
-        //    {
-        //        if (shape[y + 1, x + 1] == 1)
-        //        {
-        //            GameObject tile = PoolManager.Instance.Pop(ETileType.BlockNode);
-        //            tile.transform.SetParent(transform);
-        //            tile.transform.localPosition = new Vector3(x, -y, 0) * IGConfig.TILE_WIDTH;
-        //            BlockNodes.Add(tile.transform.GetComponent<IGBlockTile>());
-        //        }
-        //    }
-        //}
+        for(int i =0; i < 3; ++i)
+        {
+            _blockList.Add(PoolManager.Instance.Pop<IGBlock>(EPoolType.Block));
+        }
     }
-    
+
+
+    //private void SpawnBlock(int index)
+    //{
+    //    //BlockShape randomShape = blockShapes[Random.Range(0, blockShapes.Count)];
+    //    //var block = PoolManager.Instance.Pop(EPoolType.Block);
+    //    //block.gameObject.transform.localPosition = spawnPositions[index];
+    //    //block.gameObject.transform.SetParent(this.transform);
+
+    //    //IGBlock igBlock = block.GetComponent<IGBlock>();
+    //    ////igBlock.BlockController = this;
+    //    //igBlock.SetBlockShape(randomShape);
+    //}
+
 }

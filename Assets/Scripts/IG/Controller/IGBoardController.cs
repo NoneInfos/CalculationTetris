@@ -10,13 +10,10 @@ public class IGBoardController : ControllerBase
 
     [SerializeField] private SpriteRenderer gridLineRenderer;
 
-
-    private IGBoard _IGBoard;
     private int totalClearedLines = 0;
     private int totalClearedSquares = 0;
     public override void InitializeController()
     {
-        _IGBoard = new IGBoard();
 
         //ApplyTheme(ThemeManager.Instance.CurrentTheme);
         ThemeManager.Instance.OnThemeChanged += ApplyTheme;

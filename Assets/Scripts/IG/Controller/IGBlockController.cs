@@ -63,48 +63,11 @@ public class IGBlockController : ControllerBase
         _blockManager = IGBlockManager.Instance;
 
 
-        InitializeBlockShapes();
-        SpawnBlocks();
         PrepareNextBlock();
 
-        
-
     }
 
-    private void InitializeBlockShapes()
-    {
-        blockShapes = new List<BlockShape>
-        {
-            new BlockShape(new int[,] { { 1, 1, 1 }, { 1, 0, 1 }, { 1, 1, 1 } }, 0), // O shape
-            new BlockShape(new int[,] { { 1, 1, 1, 1 } }, 0), // I shape
-            new BlockShape(new int[,] { { 1, 1, 1 }, { 0, 1, 0 } }, 0), // T shape
-            new BlockShape(new int[,] { { 1, 1 }, { 1, 1 } }, 1), // Square shape
-            new BlockShape(new int[,] { { 1, 1, 0 }, { 0, 1, 1 } }, 1), // Z shape
-            new BlockShape(new int[,] { { 0, 1, 1 }, { 1, 1, 0 } }, 2), // S shape
-            new BlockShape(new int[,] { { 1, 0, 0 }, { 1, 1, 1 } }, 2), // L shape
-            new BlockShape(new int[,] { { 0, 0, 1 }, { 1, 1, 1 } }, 2)  // J shape
-        };
-    }
-
-    private void SpawnBlocks()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            SpawnBlock(i);
-        }
-    }
-
-    private void SpawnBlock(int index)
-    {
-        BlockShape randomShape = blockShapes[Random.Range(0, blockShapes.Count)];
-        var block = PoolManager.Instance.Pop(ETileType.Block);
-        block.gameObject.transform.localPosition = spawnPositions[index];
-        block.gameObject.transform.SetParent(this.transform);
-
-        IGBlock igBlock = block.GetComponent<IGBlock>();
-        //igBlock.BlockController = this;
-        igBlock.SetBlockShape(randomShape);
-    }
+   
     public void RotateSelectedBlock()
     {
         if (SelectedBlock != null)
@@ -125,7 +88,7 @@ public class IGBlockController : ControllerBase
     {
         for(int i =0; i<3; ++i)
         {
-            var block = PoolManager.Instance.Pop(ETileType.Block);
+            var block = PoolManager.Instance.Pop<IGBlock>(EPoolType.Block);
             block.gameObject.transform.localPosition = spawnPositions[i];
             block.gameObject.transform.parent = this.transform;
 
@@ -222,12 +185,11 @@ public class IGBlockController : ControllerBase
     private IGBlock CreateNewBlock()
     {
         BlockShape randomShape = GetRandomBlockShape();
-        var block = PoolManager.Instance.Pop(ETileType.Block);
+        var block = PoolManager.Instance.Pop<IGBlock>(EPoolType.Block);
         block.gameObject.SetActive(false);
 
         IGBlock igBlock = block.GetComponent<IGBlock>();
         //igBlock.BlockController = this;
-        igBlock.SetBlockShape(randomShape);
 
         if (AvailableBlocks == null)
             AvailableBlocks = new List<IGBlock>();
