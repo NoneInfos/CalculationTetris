@@ -14,8 +14,21 @@ public class IGEngine : MonoBehaviour
 
     private void Awake()
     {
+        
+        InitializeManagers();
+        InitializeControllers();
+
+    }
+
+    private void InitializeManagers(){
         PoolManager.Instance.InitializeManager();
         IGGameManager.Instance.InitializeManager();
+    }
+
+    private void InitializeControllers(){
+        var gameControllerObj = new GameObject("IGGameController");
+        var gameController = gameControllerObj.AddComponent<IGGameController>();
+        gameController.InitializeController();
     }
 
 
@@ -26,7 +39,7 @@ public class IGEngine : MonoBehaviour
         float verticalSize = (IGConfig.BOARD_ROW * IGConfig.TILE_HEIGHT / 2f);
         float horizontalSize = (IGConfig.BOARD_COL * IGConfig.TILE_WIDTH / 2f);
 
-        // È­¸é ºñÀ²¿¡ µû¶ó ÀûÀýÇÑ size ¼±ÅÃ
+        // È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ size ï¿½ï¿½ï¿½ï¿½
         float screenRatio = (float)Screen.width / Screen.height;
         float targetRatio = horizontalSize / verticalSize;
 
