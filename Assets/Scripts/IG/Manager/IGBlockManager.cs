@@ -7,6 +7,7 @@ public class IGBlockManager : ManagerBase<IGBlockManager>
 {
     private IGBlockController _blockController;
     private List<IGBlock> _blockList;
+    private Vector2[] _spawnPositions;
 
     public override void InitializeManager()
     {
@@ -17,6 +18,13 @@ public class IGBlockManager : ManagerBase<IGBlockManager>
         else
             _blockList = new List<IGBlock>();
 
+
+        _spawnPositions = new Vector2[]
+        {
+            new Vector2(-240f, -470f),
+            new Vector2(0f, -470f),
+            new Vector2(240f, -470f),
+        };
 
         SpawnBlocks();
 
@@ -40,9 +48,11 @@ public class IGBlockManager : ManagerBase<IGBlockManager>
 
     public void SpawnBlocks()
     {
-        for(int i =0; i < 3; ++i)
+        for(int i =0 ; i < 3; ++i)
         {
-            _blockList.Add(PoolManager.Instance.Pop<IGBlock>(EPoolType.Block));
+            var block = PoolManager.Instance.Pop<IGBlock>(EPoolType.Block);
+            _blockList.Add(block);
+            block.transform.localPosition = _spawnPositions[i];
         }
     }
 

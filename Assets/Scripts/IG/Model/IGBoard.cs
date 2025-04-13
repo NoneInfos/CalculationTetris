@@ -75,7 +75,7 @@ namespace IGMain
                     
                     //tile.SetIndex(x, y);
                     tile.name = $"Tile_{x}_{y}";
-                    
+                    tile.transform.SetParent(IGBoardManager.Instance.gameObject.transform);
                     board[y, x] = tile;
                 }
             }
