@@ -27,6 +27,8 @@ namespace IGMain
             _boardController = CreateObj<IGBoardController>(this.transform, true, "InGame");
             _boardController.InitializeController();
 
+            IGBoardManager.Instance.RegisterBoardController(_boardController);
+
             _inputController = CreateObj<IGInputController>(this.transform, true, "InGame");
             _inputController.InitializeController();
         }
@@ -35,17 +37,18 @@ namespace IGMain
         {
         }
 
-
-      
-
-
-
         public void RestartGame()
         {
             _blockController.ClearController();
             _boardController.ClearController();
             _inputController.ClearController();
             //StartGame();
+        }
+
+        public bool CheckBlockPlacement(IGBlock block, Vector2Int gridPosition)
+        {
+            // 게임 컨트롤러가 보드 컨트롤러에 요청을 전달
+            return _boardController.CanPlaceBlockAtPosition(block, gridPosition);
         }
 
     }

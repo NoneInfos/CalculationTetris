@@ -26,4 +26,9 @@ public class IGBoardManager : ManagerBase<IGBoardManager>
         _igBoard = new IGBoard();
         _igBoard.Initialize();
     }
+
+    public void RegisterBoardController(IGBoardController boardController)
+    {
+        boardController.SetBoard(_igBoard);
+    }
 }

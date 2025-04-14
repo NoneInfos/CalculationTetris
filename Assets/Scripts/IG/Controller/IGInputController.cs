@@ -5,6 +5,9 @@ using IGMain;
 
 public class IGInputController : ControllerBase
 {
+    private IGGameController _gameController;
+
+
     private Vector3 _dragStartPosition;
     private Vector3 _dragCurrentPosition;
     private IGBlock _selectedBlock;
@@ -23,6 +26,13 @@ public class IGInputController : ControllerBase
     public override void InitializeController()
     {
         _mainCamera = Camera.main;
+
+        // 게임 컨트롤러 참조 가져오기
+        _gameController = GetComponentInParent<IGGameController>();
+        if (_gameController == null)
+        {
+            Debug.LogError("Game Controller reference not found!");
+        }
     }
 
     public override void UpdateController()
@@ -112,6 +122,10 @@ public class IGInputController : ControllerBase
 
         _dragCurrentPosition = position;
         _selectedBlock.transform.position = position;
+
+        // 블록이 이동할 때마다 충돌 체크
+        CheckBlockCollision(_selectedBlock, position);
+
         OnBlockDragged?.Invoke(position);
     }
 
@@ -141,5 +155,15 @@ public class IGInputController : ControllerBase
         OnBlockSelected = null;
         OnBlockDragged = null;
         OnBlockReleased = null;
+    }
+
+    private void CheckBlockCollision(IGBlock block, Vector3 position)
+    {
+        Vector2Int gridPos = block.WorldToGridPosition(position);
+
+        // 게임 컨트롤러를 통해 충돌 체크 요청
+        bool canPlace = _gameController.CheckBlockPlacement(block, gridPos);
+
+        block.SetCollisionState(!canPlace);
     }
 }

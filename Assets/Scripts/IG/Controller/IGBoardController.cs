@@ -10,6 +10,9 @@ public class IGBoardController : ControllerBase
 
     [SerializeField] private SpriteRenderer gridLineRenderer;
 
+    private IGBoard _board;
+
+
     private int totalClearedLines = 0;
     private int totalClearedSquares = 0;
     public override void InitializeController()
@@ -32,9 +35,13 @@ public class IGBoardController : ControllerBase
         //    tile.GetComponent<SpriteRenderer>().color = theme.backgroundColor;
         //}
     }
-    
 
-   
+
+    public void SetBoard(IGBoard board)
+    {
+        _board = board;
+    }
+
 
     public int GetTotalClearedLines()
     {
@@ -76,5 +83,10 @@ public class IGBoardController : ControllerBase
     {
     }
 
-    
+    public bool CanPlaceBlockAtPosition(IGBlock block, Vector2Int boardPosition)
+    {
+        // 여기서 보드 모델에 접근하여 충돌 체크
+        return _board.CanPlaceBlock(block, boardPosition);
+    }
+
 }

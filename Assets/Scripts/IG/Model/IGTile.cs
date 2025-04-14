@@ -9,9 +9,9 @@ namespace IGMain
 {
     public class IGTile : IGObject
     {
-        [SerializeField] TextMeshPro TXT_Index;
+        [SerializeField] protected TextMeshPro TXT_Index;
 
-        [SerializeField] SpriteRenderer _spriteRenderer;
+        [SerializeField] protected SpriteRenderer _spriteRenderer;
 
         private IGObjectData _objectData;
 
@@ -49,7 +49,7 @@ namespace IGMain
 
 
 
-        public void SetCollide(bool isCollide)
+        public virtual void SetCollide(bool isCollide)
         {
             IsColide = isCollide;
         }
@@ -67,9 +67,8 @@ namespace IGMain
         public void ResetTile()
         {
             IsPlaceBlock = false;
-            // Ÿ���� �ð��� ���¸� �ʱ�ȭ
-            _spriteRenderer.color = Color.white; // �Ǵ� �⺻ �������� ����
-                                                 // �ʿ��� ��� �ٸ� �Ӽ��鵵 �ʱ�ȭ
+            _spriteRenderer.color = Color.white; 
+                                                 
         }
 
     }

@@ -77,7 +77,43 @@ namespace IGMain
             }
         }
 
-       
+        public List<Vector2Int> GetRelativeTilePositions()
+        {
+            List<Vector2Int> positions = new List<Vector2Int>();
+
+            for (int y = 0; y < _blockShape.Height; y++)
+            {
+                for (int x = 0; x < _blockShape.Width; x++)
+                {
+                    if (_blockShape.Shape[y, x] == 1)
+                    {
+                        positions.Add(new Vector2Int(x, y));
+                    }
+                }
+            }
+
+            return positions;
+        }
+
+        // 월드 좌표를 보드 그리드 좌표로 변환
+        public Vector2Int WorldToGridPosition(Vector3 worldPosition)
+        {
+            // 여기서는 블록의 월드 좌표를 보드의 그리드 좌표로 변환
+            return new Vector2Int(
+                Mathf.RoundToInt(worldPosition.x / IGConfig.TILE_WIDTH),
+                Mathf.RoundToInt(-worldPosition.y / IGConfig.TILE_HEIGHT)  // Y축은 아래로 증가하므로 음수
+            );
+        }
+
+        public void SetCollisionState(bool isColliding)
+        {
+            // 블록의 모든 타일에 충돌 상태 전달
+            foreach (var tile in _blockTiles)
+            {
+                if (tile != null)
+                    tile.SetCollide(isColliding);
+            }
+        }
 
 
         //public bool IsAllBlockNodeColideWithBoardNode()

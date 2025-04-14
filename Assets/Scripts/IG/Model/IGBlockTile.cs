@@ -6,13 +6,12 @@ namespace IGMain
 {
     public class IGBlockTile : IGTile
     {
-        [SerializeField] Sprite SPR_BG;
 
-
-        
         private Collider2D _nearestColider;
 
         private float _nearestObjectDist;
+
+
 
         public GameObject NearestObject { get { return _nearestColider != null ? _nearestColider.gameObject : null; } }
 
@@ -30,29 +29,24 @@ namespace IGMain
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            
-        }
-        private void OnTriggerStay2D(Collider2D collision)
-        {
-            if (_nearestColider == null)
-                _nearestColider = collision;
-            else
-            {
-                var dist = Vector3.Distance(this.gameObject.transform.position, collision.gameObject.transform.position);
 
-                if (dist < _nearestObjectDist)
-                    _nearestObjectDist = dist;
-            }
-        }
-        private void OnTriggerExit2D(Collider2D collision)
+        public override void SetCollide(bool isCollide)
         {
-            if(collision == _nearestColider)
-            {
-                _nearestColider = null;
-            }
+            IsColide = isCollide;
+            UpdateVisualState();
         }
+
+        private void UpdateVisualState()
+        {
+            if (_spriteRenderer == null)
+                _spriteRenderer = GetComponent<SpriteRenderer>();
+
+            // 충돌 상태에 따른 시각적 피드백
+            _spriteRenderer.color = IsColide ?
+                new Color(1f, 0.3f, 0.3f, 0.8f) : // 붉은색 (충돌)
+                Color.white; // 기본색
+        }
+
     }
 
 

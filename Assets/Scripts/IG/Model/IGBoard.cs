@@ -81,7 +81,30 @@ namespace IGMain
             }
         }
 
+        public bool IsTileOccupied(int x, int y)
+        {
+            // 범위 체크
+            if (x < 0 || x >= IGConfig.BOARD_COL || y < 0 || y >= IGConfig.BOARD_ROW)
+                return true; // 범위 밖은 점유된 것으로 간주
 
+            return board[y, x].IsPlaceBlock;
+        }
+
+        public bool CanPlaceBlock(IGBlock block, Vector2Int boardPosition)
+        {
+            // 블록의 모든 타일에 대해 충돌 검사
+            foreach (var tilePosition in block.GetRelativeTilePositions())
+            {
+                int boardX = boardPosition.x + tilePosition.x;
+                int boardY = boardPosition.y + tilePosition.y;
+
+                // 보드 밖이거나 이미 점유된 타일이면 배치 불가능
+                if (IsTileOccupied(boardX, boardY))
+                    return false;
+            }
+
+            return true;
+        }
 
         // public bool IsFilledRow(int row)
         // {
